@@ -1,11 +1,15 @@
 package com.pmiller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
     private int money;
     private boolean isDealer;
     private String playerName;
     private int moneyAtStake;
+    private List<Card> playerHand = new ArrayList<>();
 
 
     public Player(String playerName, int startingMoney){
@@ -38,6 +42,9 @@ public class Player {
         this.money = money;
     }
 
+    public List<Card> getPlayerHand() {
+        return playerHand;
+    }
 
     //Methods
 
