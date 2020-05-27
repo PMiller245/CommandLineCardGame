@@ -214,17 +214,65 @@ public class BlackjackGame extends CardGame {
 
     }
 
+    public void checkBlackjacks(){
+
+        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer);
+        int playerHandValue = calculateBlackjackHandValue(blackjackPlayer);
+
+        //check for blackjacks (hand values of 0 denote blackjack)
+        if(playerHandValue == 0 && !(dealerHandValue == 0 )){
+            System.out.println("Blackjack! Player wins!");
+            endHand();
+
+        } else if (!(playerHandValue == 0) && dealerHandValue == 0){
+
+            System.out.println("Blackjack for the dealer!");
+            endHand();
+        } else if (playerHandValue == 0 && dealerHandValue == 0){
+            System.out.println("Both players have Blackjack!  Push!!");
+
+            endHand();
+        }
+
+    }
 
 
     public void evaluateHand(){
 
+        //blackjacks have already been checked
 
-        //check for blackjacks
-        if(calculateBlackjackHandValue(blackjackPlayer) == 21 && blackjackPlayer.getPlayerHand().size() == 2){
-            System.out.println("Blackjack!");
+        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer);
+        int playerHandValue = calculateBlackjackHandValue(blackjackPlayer);
+
+        //check for busts
+
+        if(playerHandValue == -1 && !(dealerHandValue == -1 )){
+            System.out.println("Player Busts! Dealer Wins!");
+            endHand();
+
+        } else if (!(playerHandValue == -1) && dealerHandValue == -1){
+
+            System.out.println("Blackjack for the dealer!");
+            endHand();
+        } else if (playerHandValue == -1 && dealerHandValue == -1){
+            System.out.println("Both players busted!  Push!!");
+
+            endHand();
+        }
+
+        if(playerHandValue > dealerHandValue ){
+
+            System.out.println();
 
         }
 
+    }
+
+
+    public void endHand(){
+
+        blackjackPlayer.discardHand();
+        blackjackDealer.discardHand();
 
 
     }
