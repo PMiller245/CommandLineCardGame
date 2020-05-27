@@ -28,7 +28,7 @@ public class PlayerTurnState implements BlackjackGameState{
         System.out.println("Dealing one card");
         hitCard = blackjackGame.getDeck().draw(1)[0];
         hitCard.turnOver();
-        //blackjackGame.getPlayerHand().add(hitCard);
+        blackjackGame.getBlackjackPlayer().addToHand(hitCard);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         System.out.println("Your total is now: "  + blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer()));
 

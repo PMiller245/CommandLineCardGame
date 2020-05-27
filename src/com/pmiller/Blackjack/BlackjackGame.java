@@ -18,7 +18,7 @@ public class BlackjackGame extends CardGame {
     private Player blackjackDealer;
     private Player blackjackPlayer;
     private int blackjackHandValue;
-    private List<String> listOfCommands;
+    private List<String> listOfCommands = new ArrayList<>();
     private BlackjackGameState playerTurnState;
     private BlackjackGameState dealerTurnState;
     private BlackjackGameState bettingState;
@@ -47,7 +47,9 @@ public class BlackjackGame extends CardGame {
         this.playerTurnState = new PlayerTurnState(this);
         this.dealerTurnState = new DealerTurnState(this);
         this.bettingState = new BettingState(this);
-        this.state = bettingState;
+
+        //game should be in betting state to begin with
+        this.state = playerTurnState;
 
 
 
@@ -122,11 +124,17 @@ public class BlackjackGame extends CardGame {
 
             System.out.println("Your action of " + userInput);
 
-            if(userInput.equalsIgnoreCase("deal"));{
+            if(userInput.equalsIgnoreCase("deal")){
                 blackjackDealer.discardHand();
                 blackjackPlayer.discardHand();
 
                 dealHand();
+
+            }
+
+            if(userInput.equalsIgnoreCase("hit"));{
+
+                playerHit();
 
             }
         }
@@ -212,6 +220,9 @@ public class BlackjackGame extends CardGame {
 
 
     public void playerHit(){
+
+        System.out.println("Hit initiated");
+        state.hit();
 
 
     }
