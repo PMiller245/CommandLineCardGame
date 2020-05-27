@@ -42,15 +42,15 @@ public class Deck {
         for (int i = 0; i < numberOfDecks; i ++){
             for (int j = 2; j < 15; j++) {
 
-                this.cards.add(new Card("Spades",i));
-                this.cards.add(new Card("Clubs",i));
-                this.cards.add(new Card("Hearts",i));
-                this.cards.add(new Card("Diamonds",i));
+                this.cards.add(new Card("Spades",j));
+                this.cards.add(new Card("Clubs",j));
+                this.cards.add(new Card("Hearts",j));
+                this.cards.add(new Card("Diamonds",j));
 
                 //System.out.println(this.cards);
             }
 
-            shuffle();
+            //shuffle();
 
         }
     }
@@ -94,6 +94,8 @@ public class Deck {
     }
 
     public String printCard(int index){
+        System.out.println("printing card at" + index);
+
 
         return this.cards.get(index).getFaceValue();
 

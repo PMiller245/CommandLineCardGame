@@ -1,39 +1,100 @@
 package com.pmiller;
 
-public class BlackjackGame{
+import java.util.List;
+import java.util.Scanner;
+
+public class BlackjackGame extends CardGame{
 
     //Properties
 
     private int numberOfDecks;
     private int numberOfPlayers;
-    private Deck deck;
+    private Scanner input;
+    private List<Card> playerHand;
+    private List<Card> dealerHand;
+    //private Deck deck;
 
 
 
-    public BlackjackGame(int numberOfDecks){
 
 
+
+    public BlackjackGame(int numberOfDecks, Player currentPlayer){
+
+        super(numberOfDecks,currentPlayer);
+        this.input = new Scanner(System.in);
+        System.out.println("Blackjack game starting...");
+        startBlackJackGame();
+
+
+        //printBlackjackDeck(); was printing blackjack deck to verify creation
+
+    }
+
+
+    public void printBlackjackDeck(){
+
+        for(int i = 0; i < super.getDeck().size();i++){
+
+            System.out.println(super.getDeck().printCard(i));
+        }
+
+        System.out.println("WE MADE A GAME FOR " + super.getPlayer().getPlayerName());
+    }
+
+
+    public void startBlackJackGame(){
+
+        String userInput = "";
+        //Deal first hand
+
+        //while loop that handles the commands.  exits the program when the command is exit
+        while(!"exit".equalsIgnoreCase(userInput)){
+
+            userInput = input.nextLine();
+
+            System.out.println("Your action of " + userInput);
+
+
+
+
+        }
+
+
+
+    }
+
+    public void dealStartingHands(){
+
+
+
+    }
+
+    public void playerHit(){
+
+
+    }
+
+
+    public void dealerHit(){
+
+
+    }
+
+
+    public void stand(){
 
 
 
     }
 
 
-    public BlackjackGame(int numberOfDecks, Player currentPlayer){
-
-        this.numberOfDecks = numberOfDecks;
-        this.deck = new Deck(this.numberOfDecks);
-        deck.shuffle();
-
-        for(int i = 0; i < this.deck.size();i++){
+    public void makeBet(){
 
 
+    }
 
-            System.out.println(deck.printCard(i));
-        }
-
-
-        System.out.println("WE MADE A GAME FOR " + currentPlayer.getPlayerName());
+    public void evaluateWinner(){
 
 
 
