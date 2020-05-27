@@ -216,7 +216,18 @@ public class BlackjackGame extends CardGame {
 
 
 
+    public void evaluateHand(){
 
+
+        //check for blackjacks
+        if(calculateBlackjackHandValue(blackjackPlayer) == 21 && blackjackPlayer.getPlayerHand().size() == 2){
+            System.out.println("Blackjack!");
+
+        }
+
+
+
+    }
 
 
     public void playerHit(){
