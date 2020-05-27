@@ -66,9 +66,21 @@ public class BlackjackGame extends CardGame{
 
     public void dealStartingHands(){
 
+        playerHand.add(super.getDeck().draw(1)[0]);
+        playerHand.get(0).turnOver();
+        dealerHand.add(super.getDeck().draw(1)[0]);
+        dealerHand.get(0).turnOver();
+        playerHand.add(super.getDeck().draw(1)[0]);
+        playerHand.get(1).turnOver();
+        //last dealer card is face down
+        dealerHand.add(super.getDeck().draw(1)[0]);
+
 
 
     }
+
+
+
 
     public void playerHit(){
 
@@ -96,6 +108,11 @@ public class BlackjackGame extends CardGame{
 
     public void evaluateWinner(){
 
+
+
+    }
+
+    public void clearHand(){
 
 
     }
