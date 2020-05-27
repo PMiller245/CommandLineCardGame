@@ -59,11 +59,11 @@ public class CardGame {
 
     //Methods
 
-    public void outputHand(List<Card> hand, String playerName){
+    public void outputHand(Player player){
 
-        System.out.println(playerName + "'s  hand is " + hand.size() + " cards.");
+        System.out.println(player.getPlayerName() + "'s  hand is " + player.getPlayerHand().size() + " cards.");
 
-        for (Card card : hand){
+        for (Card card : player.getPlayerHand()){
 
             if(card.isFaceUp() == true){
                 System.out.println(card.getFaceValue());

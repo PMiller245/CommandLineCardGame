@@ -16,15 +16,10 @@ public class BlackjackGame extends CardGame {
     private int numberOfPlayers;
     private Scanner input;
     private Player blackjackDealer;
+    private Player blackjackPlayer;
+    private int blackjackHandValue;
 
 
-
-    private int playerHandValue;
-
-
-
-    private List<Card> playerHand = new ArrayList<>();
-    private List<Card> dealerHand = new ArrayList<>();
     //private Deck deck;
 
 
@@ -35,7 +30,8 @@ public class BlackjackGame extends CardGame {
     public BlackjackGame(int numberOfDecks, Player currentPlayer){
 
         super(numberOfDecks,currentPlayer);
-        this.blackjackDealer = new Player("Dealer", 1000000);
+        this.blackjackPlayer = super.getPlayer();
+        this.blackjackDealer = new Player(true);
         this.input = new Scanner(System.in);
         System.out.println("Blackjack game starting...");
         startBlackJackGame();
@@ -46,17 +42,6 @@ public class BlackjackGame extends CardGame {
     }
 
 
-    public List<Card> getPlayerHand() {
-        return playerHand;
-    }
-
-    public List<Card> getDealerHand() {
-        return dealerHand;
-    }
-
-    public int getPlayerHandValue() {
-        return playerHandValue;
-    }
 
 
     public void printBlackjackDeck(){
@@ -76,13 +61,24 @@ public class BlackjackGame extends CardGame {
         //Deal first hand
         System.out.println("Type \"exit\" to exit at anytime");
         dealHand();
+        super.getDeck().shuffle();
 
         //while loop that handles the commands.  exits the program when the command is exit
         while(!"exit".equalsIgnoreCase(userInput)){
+            userInput = "";
 
             userInput = input.nextLine();
 
             System.out.println("Your action of " + userInput);
+
+            if(userInput.equalsIgnoreCase("deal"));{
+                blackjackDealer.discardHand();
+                blackjackPlayer.discardHand();
+
+                dealHand();
+
+
+            }
 
 
 
@@ -95,35 +91,84 @@ public class BlackjackGame extends CardGame {
 
     public void dealHand(){
 
-        playerHand.add(super.getDeck().draw(1)[0]);
-        playerHand.get(0).turnOver();
-        dealerHand.add(super.getDeck().draw(1)[0]);
-        dealerHand.get(0).turnOver();
-        playerHand.add(super.getDeck().draw(1)[0]);
-        playerHand.get(1).turnOver();
-        //last dealer card is face down
-        dealerHand.add(super.getDeck().draw(1)[0]);
+        blackjackPlayer.addToHand(super.getDeck().draw(1)[0]);
+        blackjackPlayer.getPlayerHand().get(0).turnOver();
+        blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
+        blackjackDealer.getPlayerHand().get(0).turnOver();
+        blackjackPlayer.addToHand(super.getDeck().draw(1)[0]);
+        blackjackPlayer.getPlayerHand().get(1).turnOver();
 
-        outputHand(dealerHand, "Dealer");
-        outputHand(playerHand, super.getPlayer().getPlayerName());
+        //last dealer card is face down
+        blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
+        //blackjackDealer.getPlayerHand().get(1).turnOver(); comment that shows the dealer hand
+
+
+        outputHand(blackjackDealer);
+        System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackDealer));
+        outputHand(blackjackPlayer);
+        System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackPlayer));
 
 
 
 
     }
 
-    public int updateHandTotal(Player player){
+    public int calculateBlackjackHandValue(Player player){
+        //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
 
-        int value = 0;
+        blackjackHandValue = 0;
+        int blackjackCardValue = 0;
+        int aceCounter = 0;
 
-        for(Card card: playerHand){
+        for (Card card : player.getPlayerHand()){
 
+            //check for ace and set it to max value
+            if(card.getValue() == 14){
+                aceCounter++;
+                blackjackCardValue = 11;
+            }
+            if(card.getValue() <= 10){
 
+                blackjackCardValue =  card.getValue();
 
+            }
+
+            //normalize face cards
+            if(card.getValue() > 10 && card.getValue() <= 13){
+
+                blackjackCardValue = 10;
+
+            }
+            blackjackHandValue = blackjackHandValue + blackjackCardValue;
         }
 
-        return value;
+        //check for blackjack
+        if(blackjackHandValue == 21 && player.getPlayerHand().size() == 2){
+            return 0;
+        }
+
+        //resize hand based on number of aces, loop does nothing if
+        while(aceCounter > 0){
+
+            //subract value of 1 ace
+            if(blackjackHandValue > 21){
+                blackjackHandValue = blackjackHandValue - 10;
+
+            }
+
+            aceCounter--;
+        }
+
+        if (blackjackHandValue > 21){
+            return -1;
+        }
+
+        return blackjackHandValue;
+
+
     }
+
+
 
 
 

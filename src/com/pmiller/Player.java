@@ -12,6 +12,17 @@ public class Player {
     private List<Card> playerHand = new ArrayList<>();
 
 
+
+    public Player(boolean isDealer){
+
+        this.playerName = "Dealer";
+        this.isDealer = isDealer;
+        this.money = 1000000;
+        this.moneyAtStake = 0;
+    }
+
+
+
     public Player(String playerName, int startingMoney){
 
         this.playerName = playerName;
@@ -46,6 +57,8 @@ public class Player {
         return playerHand;
     }
 
+    public boolean getIsDealer(){return isDealer;}
+
     //Methods
 
     public boolean makeBid(int bidAmount){
@@ -59,6 +72,16 @@ public class Player {
             this.money = this.money - bidAmount;
             return true;
         }
+
+    }
+
+    public void addToHand(Card card){
+        this.playerHand.add(card);
+
+    }
+
+    public void discardHand(){
+        this.playerHand.clear();
 
     }
 
