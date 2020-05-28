@@ -158,9 +158,9 @@ public class BlackjackGame extends CardGame {
 
 
         outputHand(blackjackDealer);
-        System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackDealer)); //comment to hide dealers totalPet
+        //System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackDealer)); //comment to hide dealers totalPet
         outputHand(blackjackPlayer);
-        System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackPlayer));
+        System.out.println(blackjackPlayer.getPlayerName() + "'s hand value is: " + calculateBlackjackHandValue(blackjackPlayer));
 
 
         //Always check for blackjacks after a hand
@@ -228,15 +228,15 @@ public class BlackjackGame extends CardGame {
 
         //check for blackjacks (hand values of 0 denote blackjack)
         if(playerHandValue == 0 && !(dealerHandValue == 0 )){
-            System.out.println("Blackjack! Player wins!");
+            //System.out.println("Blackjack! Player wins!");
             evaluateWinnings(blackjackPlayer, false, true);
 
         } else if (!(playerHandValue == 0) && dealerHandValue == 0){
 
-            System.out.println("Blackjack for the dealer!");
+           // System.out.println("Blackjack for the dealer!");
             evaluateWinnings(blackjackDealer, false, true);
         } else if (playerHandValue == 0 && dealerHandValue == 0){
-            System.out.println("Both players have Blackjack!  Push!!");
+           // System.out.println("Both players have Blackjack!  Push!!");
 
             evaluateWinnings(blackjackPlayer, true, true);
         }
@@ -256,31 +256,31 @@ public class BlackjackGame extends CardGame {
         //check for busts
 
         if(playerHandValue == -1 && !(dealerHandValue == -1 )){
-            System.out.println("Player Busts! Dealer Wins!");
+           // System.out.println("Player Busts! Dealer Wins!");
             evaluateWinnings(blackjackDealer, false, false);
 
         } else if (!(playerHandValue == -1) && dealerHandValue == -1){
 
-            System.out.println("Dealer Busts, PLayer Wins");
+           // System.out.println("Dealer Busts, PLayer Wins");
             evaluateWinnings(blackjackPlayer, false, false);
         } else if (playerHandValue == -1 && dealerHandValue == -1){
-            System.out.println("Both players busted!  Push!!");
+           // System.out.println("Both players busted!  Push!!");
 
             evaluateWinnings(blackjackPlayer, true, false);
         }
 
         if(playerHandValue > dealerHandValue ){
 
-            System.out.println("Player wins!");
+            //System.out.println("Player wins!");
             evaluateWinnings(blackjackPlayer, false, false);
 
         } else if (dealerHandValue > playerHandValue){
-            System.out.println("Dealer wins!");
+            //System.out.println("Dealer wins!");
             evaluateWinnings(blackjackDealer, false, false);
 
         } else if (dealerHandValue == playerHandValue){
 
-            System.out.println("Push!");
+            //System.out.println("Push!");
             evaluateWinnings(blackjackPlayer, true, false);
         }
 
@@ -357,7 +357,14 @@ public class BlackjackGame extends CardGame {
             hitCard.turnOver();
             blackjackDealer.addToHand(hitCard);
             System.out.println("Dealer was dealt a " + hitCard.getFaceValue());
-            System.out.println("Your total is now: "  + calculateBlackjackHandValue(blackjackDealer));
+
+            //check for bust by dealer
+            if(calculateBlackjackHandValue(blackjackDealer) == -1){
+                evaluateHand();
+                return;
+
+            }
+            System.out.println("Dealer total is now: "  + calculateBlackjackHandValue(blackjackDealer));
         }
 
         evaluateHand();

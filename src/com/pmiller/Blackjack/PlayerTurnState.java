@@ -31,7 +31,13 @@ public class PlayerTurnState implements BlackjackGameState{
         hitCard.turnOver();
         blackjackGame.getBlackjackPlayer().addToHand(hitCard);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
+        if(blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer()) == -1){
+            blackjackGame.evaluateHand();
+
+        }
+
         System.out.println("Your total is now: "  + blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer()));
+
 
 
     }
