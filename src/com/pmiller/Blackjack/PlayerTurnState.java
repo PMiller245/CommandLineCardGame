@@ -1,6 +1,7 @@
 package com.pmiller.Blackjack;
 
 import com.pmiller.Card;
+import com.pmiller.Player;
 
 public class PlayerTurnState implements BlackjackGameState{
 
@@ -17,7 +18,7 @@ public class PlayerTurnState implements BlackjackGameState{
 
 
     @Override
-    public void makeBet() {
+    public void makeBet(Player player, int betAmount) {
 
         System.out.println("You are not able to make a bet");
 
@@ -31,8 +32,10 @@ public class PlayerTurnState implements BlackjackGameState{
         hitCard.turnOver();
         blackjackGame.getBlackjackPlayer().addToHand(hitCard);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
+        //check busts
         if(blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer()) == -1){
             blackjackGame.evaluateHand();
+            return;
 
         }
 

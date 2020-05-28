@@ -1,5 +1,7 @@
 package com.pmiller.Blackjack;
 
+import com.pmiller.Player;
+
 public class BettingState implements BlackjackGameState{
 
     BlackjackGame blackjackGame;
@@ -11,7 +13,9 @@ public class BettingState implements BlackjackGameState{
     }
 
     @Override
-    public void makeBet() {
+    public void makeBet(Player bettingPlayer, int bet) {
+
+
 
     }
 
