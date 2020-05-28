@@ -8,6 +8,7 @@ public class PlayerTurnState implements BlackjackGameState{
 
     BlackjackGame blackjackGame;
 
+
     public PlayerTurnState(BlackjackGame blackjackGame){
 
         this.blackjackGame = blackjackGame;
@@ -37,6 +38,11 @@ public class PlayerTurnState implements BlackjackGameState{
 
     @Override
     public void stand() {
+
+        //blackjackGame.evaluateHand();
+        blackjackGame.setState(blackjackGame.getDealerTurnState());
+        blackjackGame.dealerHit();
+
 
     }
 }
