@@ -53,6 +53,9 @@ public class Player {
         this.money = money;
     }
 
+    //public void setMoneyAtStake(int moneyAtStake) { this.moneyAtStake = moneyAtStake;}
+    public int getMoneyAtStake(){return this.moneyAtStake;}
+
     public List<Card> getPlayerHand() {
         return playerHand;
     }
@@ -61,8 +64,8 @@ public class Player {
 
     //Methods
 
-    public boolean makeBid(int bidAmount){
-        //returns false if bid cant be made.  Updates money if bid is made
+    public boolean placeBet(int bidAmount){
+        //returns false if bid cant be made.  Updates money at stake and money if bid is made
 
         if(bidAmount > this.money){
 
@@ -70,9 +73,29 @@ public class Player {
             return false;
         } else {
             this.money = this.money - bidAmount;
+            this.moneyAtStake = this.moneyAtStake + bidAmount;
             return true;
         }
 
+
+    }
+
+
+    //passed in winnings calculated at the blackjack table with this players money at stake property
+    public void distributeWinnings(int winnings){
+
+        this.moneyAtStake = 0;
+        this.money = this.money + winnings;
+
+    }
+
+    public void outputMoney(){
+        System.out.println(this.playerName + " has "+ this.money + " in his bank account" );
+
+    }
+
+    public void outputMoneyAtStake(){
+        System.out.println(this.playerName + " has "+ this.moneyAtStake + " currently at stake" );
     }
 
     public void addToHand(Card card){

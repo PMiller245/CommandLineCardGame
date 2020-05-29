@@ -1,5 +1,7 @@
 package com.pmiller.Blackjack;
 
+import com.pmiller.Player;
+
 public class DealerTurnState implements BlackjackGameState{
 
     BlackjackGame blackjackGame;
@@ -11,10 +13,8 @@ public class DealerTurnState implements BlackjackGameState{
     }
 
     @Override
-    public void makeBet() {
-
+    public void makeInitialBet(Player player, int bet){
         System.out.println("It is the dealers turn");
-
     }
 
     @Override
@@ -29,5 +29,15 @@ public class DealerTurnState implements BlackjackGameState{
 
         System.out.println("It is the dealers turn");
 
+    }
+
+    @Override
+    public void deal() {
+        System.out.println("It is the dealers turn");
+    }
+
+    @Override
+    public void makeMidHandBet() {
+        System.out.println("It is the dealers turn");
     }
 }

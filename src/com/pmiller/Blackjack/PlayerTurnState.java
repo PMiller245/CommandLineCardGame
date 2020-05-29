@@ -18,7 +18,7 @@ public class PlayerTurnState implements BlackjackGameState{
 
 
     @Override
-    public void makeBet(Player player, int betAmount) {
+    public void makeInitialBet(Player player, int betAmount) {
 
         System.out.println("You are not able to make a bet");
 
@@ -52,6 +52,17 @@ public class PlayerTurnState implements BlackjackGameState{
         blackjackGame.setState(blackjackGame.getDealerTurnState());
         blackjackGame.dealerHit();
 
+
+    }
+
+    @Override
+    public void deal() {
+        System.out.println("Hand has already been dealt!");
+
+    }
+
+    @Override
+    public void makeMidHandBet() {
 
     }
 }

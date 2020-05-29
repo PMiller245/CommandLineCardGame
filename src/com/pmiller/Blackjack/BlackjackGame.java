@@ -7,7 +7,6 @@ import com.pmiller.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class BlackjackGame extends CardGame {
 
@@ -117,7 +116,10 @@ public class BlackjackGame extends CardGame {
         //Deal first hand
         System.out.println("Type \"exit\" to exit at anytime");
         super.getDeck().shuffle();
-        dealHand();
+        this.setState(this.bettingState);
+        System.out.println("Please place your initial  bets by typing \"bet\"");
+        //dealHand();
+
 
         //while loop that handles the commands.  exits the program when the command is exit
         while(!"exit".equalsIgnoreCase(userInput)){
@@ -130,21 +132,21 @@ public class BlackjackGame extends CardGame {
             if(userInput.equalsIgnoreCase("deal")){
                 blackjackDealer.discardHand();
                 blackjackPlayer.discardHand();
-                dealHand();
+                state.deal();
             }
 
             if(userInput.equalsIgnoreCase("hit")){
-                playerHit();
+                state.hit();
             }
 
             if(userInput.equalsIgnoreCase("stand")){
-                stand();
+                state.stand();
             }
 
             if(userInput.equalsIgnoreCase("bet")){
                 System.out.println("How much would you like to bet?");
                 betAmount = Integer.parseInt(input.nextLine());
-                state.makeBet(blackjackPlayer, betAmount);
+                state.makeInitialBet(blackjackPlayer, betAmount);
 
             }
 
@@ -304,23 +306,38 @@ public class BlackjackGame extends CardGame {
     //takes in winning player and calls in appropriate payout functions
     public void evaluateWinnings(Player winningPlayer, boolean isPush, boolean isBlackjack){
 
+        int winningPlayerMoneyWon = winningPlayer.getMoneyAtStake();
+
         if(isBlackjack && !isPush){
             System.out.println(winningPlayer.getPlayerName() + " has a blackjack!");
+            //blackjack pay 2:1
+            winningPlayerMoneyWon = 3*winningPlayerMoneyWon;
+            winningPlayer.distributeWinnings(winningPlayerMoneyWon);
+            winningPlayer.outputMoney();
             clearTable();
+            return;
 
         } else if (isBlackjack && isPush){
 
             System.out.println("Dealer and " + winningPlayer.getPlayerName() + " both have blackjacks!  Push!");
+            winningPlayer.distributeWinnings(winningPlayerMoneyWon);
+            winningPlayer.outputMoney();
+            return;
 
         }
 
         if(isPush){
 
-            //push payout function
+            winningPlayer.distributeWinnings(winningPlayerMoneyWon);
+            winningPlayer.outputMoney();
             clearTable();
+            return;
 
         }
-        //winner payout function
+
+
+        winningPlayer.distributeWinnings(2*winningPlayerMoneyWon);
+        winningPlayer.outputMoney();
         clearTable();
 
     }
@@ -328,21 +345,15 @@ public class BlackjackGame extends CardGame {
     //clears the hands and sets the state for the next hand
     public void clearTable(){
 
-        System.out.println("Clearing table! Type \"Deal\" to deal the next hand");
+        System.out.println("Clearing table! Type \"Bet\" to start the next hand");
         blackjackPlayer.discardHand();
         blackjackDealer.discardHand();
-        setState(playerTurnState);
+        setState(bettingState);
 
     }
 
 
-    public void playerHit(){
 
-        //System.out.println("Hit initiated");
-        state.hit();
-
-
-    }
 
     //after all players stands, goes through the dealer hit procedure then calls payout function
     public void dealerHit(){
@@ -382,29 +393,10 @@ public class BlackjackGame extends CardGame {
     }
 
 
-    public void stand(){
-
-        state.stand();
-
-    }
-
-
-    public void makeBet(Player bettingPlayer, int betAmount){
-
-       // state.makeBet();
-
-    }
-
-    public void evaluateWinner(){
 
 
 
-    }
 
-    public void clearHand(){
-
-
-    }
 
 
 

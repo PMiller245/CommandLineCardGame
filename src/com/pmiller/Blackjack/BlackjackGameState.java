@@ -4,7 +4,9 @@ import com.pmiller.Player;
 
 public interface BlackjackGameState {
 
-    void makeBet(Player player, int bet);
+    void makeInitialBet(Player player, int bet);
     void hit();
     void stand();
+    void deal();
+    void makeMidHandBet();
 }
