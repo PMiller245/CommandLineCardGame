@@ -247,12 +247,12 @@ public class BlackjackGame extends CardGame {
         //check for blackjacks (hand values of 0 denote blackjack)
         if(playerHandValue == 0 && !(dealerHandValue == 0 )){
             //System.out.println("Blackjack! Player wins!");
-            evaluateWinnings(blackjackPlayer, false, true, false);
+            evaluateWinnings(blackjackPlayer, false, true, true);
 
         } else if (!(playerHandValue == 0) && dealerHandValue == 0){
 
-           // System.out.println("Blackjack for the dealer!");
-            evaluateWinnings(blackjackDealer, false, true, false);
+            System.out.println("Blackjack for the dealer!");
+            evaluateWinnings(blackjackPlayer, false, false, false);
         } else if (playerHandValue == 0 && dealerHandValue == 0){
            // System.out.println("Both players have Blackjack!  Push!!");
 
@@ -298,7 +298,7 @@ public class BlackjackGame extends CardGame {
 
         } else if (dealerHandValue > playerHandValue){
             System.out.println("Dealer wins!");
-            evaluateWinnings(blackjackDealer, false, false, false);
+            evaluateWinnings(blackjackPlayer, false, false, false);
 
         } else if (dealerHandValue == playerHandValue){
 
@@ -315,7 +315,9 @@ public class BlackjackGame extends CardGame {
 
         int winningPlayerMoneyWon = evaluatedPlayer.getMoneyAtStake();
 
-        if(isBlackjack && !isPush){
+
+
+        if(isBlackjack && !isPush  && didWin){
             System.out.println(evaluatedPlayer.getPlayerName() + " has a blackjack!");
             //blackjack pay 2:1
             winningPlayerMoneyWon = 3*winningPlayerMoneyWon;
@@ -343,9 +345,13 @@ public class BlackjackGame extends CardGame {
 
         }
 
+        if(didWin){
+            evaluatedPlayer.distributeWinnings(2*winningPlayerMoneyWon);
+            evaluatedPlayer.outputMoney();
+        }
 
-        evaluatedPlayer.distributeWinnings(2*winningPlayerMoneyWon);
-        evaluatedPlayer.outputMoney();
+        //player would have lost by this point
+        evaluatedPlayer.setMoneyAtStake(0);
         clearTable();
 
     }
