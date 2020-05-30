@@ -5,6 +5,8 @@ import com.pmiller.Player;
 public class BettingState implements BlackjackGameState{
 
     BlackjackGame blackjackGame;
+    //variable to prevent deal from happening before the bet is placed
+    private boolean betPlaced;
 
     public BettingState(BlackjackGame blackjackGame) {
 
@@ -15,10 +17,13 @@ public class BettingState implements BlackjackGameState{
     @Override
     public void makeInitialBet(Player bettingPlayer, int bet) {
 
+        betPlaced = false;
+
         if(bettingPlayer.placeBet(bet) == true){
             System.out.println(bettingPlayer.getPlayerName() + "'s bet of " + bet + " was accepted.");
             bettingPlayer.outputMoney();
             bettingPlayer.outputMoneyAtStake();
+            betPlaced=true;
 
 
 
@@ -45,13 +50,27 @@ public class BettingState implements BlackjackGameState{
 
     @Override
     public void deal() {
-        blackjackGame.dealHand();
-        blackjackGame.setState(blackjackGame.getPlayerTurnState());
+
+
+        if(betPlaced){
+            blackjackGame.setState(blackjackGame.getPlayerTurnState());
+            blackjackGame.dealHand();
+            betPlaced = false;
+        } else {
+            System.out.println("No bet was placed!");
+        }
+
+
 
     }
 
     @Override
     public void makeMidHandBet() {
+
+    }
+
+    @Override
+    public void doubleDown() {
 
     }
 }

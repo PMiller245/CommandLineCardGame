@@ -65,4 +65,23 @@ public class PlayerTurnState implements BlackjackGameState{
     public void makeMidHandBet() {
 
     }
+
+    public  void doubleDown(){
+
+
+
+        if((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand().size() == 2)){
+            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake());
+            hit();
+            stand();
+        } else{
+            System.out.println("You can't double down!");
+        }
+
+
+
+
+
+    }
+
 }

@@ -40,4 +40,9 @@ public class DealerTurnState implements BlackjackGameState{
     public void makeMidHandBet() {
         System.out.println("It is the dealers turn");
     }
+
+    @Override
+    public void doubleDown() {
+        System.out.println("IT is the dealers turn");
+    }
 }

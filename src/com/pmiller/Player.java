@@ -62,6 +62,8 @@ public class Player {
 
     public boolean getIsDealer(){return isDealer;}
 
+    public int getMoney(){return this.money;}
+
     //Methods
 
     public boolean placeBet(int bidAmount){
