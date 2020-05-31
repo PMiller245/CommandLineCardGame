@@ -9,6 +9,7 @@ public interface BlackjackGameState {
     void stand();
     void deal();
     void makeMidHandBet();
+    void split();
 
     void doubleDown();
 }

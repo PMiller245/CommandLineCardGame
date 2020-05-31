@@ -70,6 +70,11 @@ public class BettingState implements BlackjackGameState{
     }
 
     @Override
+    public void split() {
+
+    }
+
+    @Override
     public void doubleDown() {
 
     }

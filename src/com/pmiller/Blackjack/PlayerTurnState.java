@@ -3,11 +3,16 @@ package com.pmiller.Blackjack;
 import com.pmiller.Card;
 import com.pmiller.Player;
 
+import java.util.List;
+
 public class PlayerTurnState implements BlackjackGameState{
 
     //Constructor
 
     BlackjackGame blackjackGame;
+
+    Player player = blackjackGame.getBlackjackPlayer();
+    List<Card> playerHand = player.getPlayerHand();
 
 
     public PlayerTurnState(BlackjackGame blackjackGame){
@@ -63,6 +68,37 @@ public class PlayerTurnState implements BlackjackGameState{
 
     @Override
     public void makeMidHandBet() {
+
+    }
+
+    @Override
+    public void split() {
+
+        if(playerHand.size() == 2 && playerHand.get(0).getValue() == playerHand.get(1).getValue()){
+
+            if((player.getMoney() >= player.getMoneyAtStake())){
+                player.placeBet(player.getMoneyAtStake());
+                hit();
+                stand();
+            } else{
+                System.out.println("You can't split!");
+            }
+
+
+
+
+        }
+
+
+        if(blackjackGame.getBlackjackPlayer().getPlayerHand())
+
+        if((player.getMoney() >= player.getMoneyAtStake()) && (playerHand.size() == 2)){
+            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake());
+            hit();
+            stand();
+        } else{
+            System.out.println("You can't split!");
+        }
 
     }
 
