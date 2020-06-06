@@ -54,6 +54,7 @@ public class Player {
     }
 
     public void setMoneyAtStake(int moneyAtStake) { this.moneyAtStake = moneyAtStake;}
+
     public int getMoneyAtStake(){return this.moneyAtStake;}
 
     public List<Card> getPlayerHand() {

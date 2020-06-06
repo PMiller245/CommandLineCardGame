@@ -9,15 +9,20 @@ public class PlayerTurnState implements BlackjackGameState{
 
     //Constructor
 
-    BlackjackGame blackjackGame;
+    private BlackjackGame blackjackGame;
+    private Player player;
+    private List<Card> playerHand;
+    private int initialBet;
 
-    Player player = blackjackGame.getBlackjackPlayer();
-    List<Card> playerHand = player.getPlayerHand();
+
 
 
     public PlayerTurnState(BlackjackGame blackjackGame){
 
         this.blackjackGame = blackjackGame;
+        this.player = blackjackGame.getBlackjackPlayer();
+        this.playerHand = this.player.getPlayerHand();
+        this.initialBet = player.getMoneyAtStake();
 
     }
 
@@ -77,30 +82,21 @@ public class PlayerTurnState implements BlackjackGameState{
         if(playerHand.size() == 2 && playerHand.get(0).getValue() == playerHand.get(1).getValue()){
 
             if((player.getMoney() >= player.getMoneyAtStake())){
+                System.out.println("Cards have been split! Playing hand one...");
                 player.placeBet(player.getMoneyAtStake());
-                hit();
-                stand();
             } else{
                 System.out.println("You can't split!");
             }
 
 
-
-
         }
 
 
-        if(blackjackGame.getBlackjackPlayer().getPlayerHand())
 
-        if((player.getMoney() >= player.getMoneyAtStake()) && (playerHand.size() == 2)){
-            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake());
-            hit();
-            stand();
-        } else{
-            System.out.println("You can't split!");
-        }
+
 
     }
+
 
     public  void doubleDown(){
 
