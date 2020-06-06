@@ -1,15 +1,12 @@
 package com.pmiller;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Player {
 
-    private final Hand hand = new Hand();
+    private Hand hand = new Hand();
     private int money;
     private boolean isHouse;
     private String playerName;
@@ -66,8 +63,8 @@ public class Player {
 
     public int getMoneyAtStake(){return this.moneyAtStake;}
 
-    public List<Card> getPlayerHand() {
-        return hand.getPlayerHand();
+    public Hand getPlayerHand() {
+        return hand;
     }
 
     public boolean getIsDealer(){return isHouse;}
@@ -75,7 +72,7 @@ public class Player {
     public int getMoney(){return this.money;}
 
     public void setPlayerHand(List<Card> playerHand) {
-        hand.setPlayerHand(playerHand);
+        hand.setCardsInHand(playerHand);
     }
 
     //Methods

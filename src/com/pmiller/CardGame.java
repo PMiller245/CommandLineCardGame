@@ -13,6 +13,7 @@ public class CardGame {
     private String gameName;
     private Deck deck;
     private Scanner input;
+    private List<Player> players = new ArrayList<>();
     private Player player;
     //private int numberOfDecks;
 
@@ -58,28 +59,6 @@ public class CardGame {
     }
 
     //Methods
-
-    public void outputHand(Player player){
-
-        System.out.println(player.getPlayerName() + "'s  hand is " + player.getPlayerHand().size() + " cards.");
-
-        for (Card card : player.getPlayerHand()){
-
-            if(card.isFaceUp() == true){
-                System.out.println(card.getFaceValue());
-            } else {
-
-                System.out.println("One card face down");
-            }
-
-
-        }
-
-
-    }
-
-
-
 
 
 }

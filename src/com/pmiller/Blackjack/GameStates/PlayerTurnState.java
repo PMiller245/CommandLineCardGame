@@ -22,7 +22,7 @@ public class PlayerTurnState implements BlackjackGameState {
 
         this.blackjackGame = blackjackGame;
         this.player = blackjackGame.getBlackjackPlayer();
-        this.playerHand = this.player.getPlayerHand();
+        this.playerHand = this.player.getPlayerHand().getCardsInHandAsList();
         this.initialBet = player.getMoneyAtStake();
 
     }
@@ -103,10 +103,14 @@ public class PlayerTurnState implements BlackjackGameState {
 
 
 
-        if((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand().size() == 2)){
+        if((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand().getCardsInHandAsList().size() == 2)){
             blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake());
             hit();
-            stand();
+            if(!blackjackGame.getBettingState().equals(blackjackGame.getState())){
+                stand();
+            }
+
+
         } else{
             System.out.println("You can't double down!");
         }

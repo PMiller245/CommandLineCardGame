@@ -168,20 +168,20 @@ public class BlackjackGame extends CardGame {
     public void dealHand(){
 
         blackjackPlayer.addToHand(super.getDeck().draw(1)[0]);
-        blackjackPlayer.getPlayerHand().get(0).turnOver();
+        blackjackPlayer.getPlayerHand().getCardInSpecificPosition(0).turnOver();
         blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
-        blackjackDealer.getPlayerHand().get(0).turnOver();
+        blackjackDealer.getPlayerHand().getCardInSpecificPosition(0).turnOver();
         blackjackPlayer.addToHand(super.getDeck().draw(1)[0]);
-        blackjackPlayer.getPlayerHand().get(1).turnOver();
+        blackjackPlayer.getPlayerHand().getCardInSpecificPosition(1).turnOver();
 
         //last dealer card is face down
         blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
         //blackjackDealer.getPlayerHand().get(1).turnOver(); //comment to hide dealers card
 
 
-        outputHand(blackjackDealer);
+        blackjackDealer.getPlayerHand().outputHandToConsole();
         //System.out.println("The hand value is: " + calculateBlackjackHandValue(blackjackDealer)); //comment to hide dealers totalPet
-        outputHand(blackjackPlayer);
+        blackjackPlayer.getPlayerHand().outputHandToConsole();
         System.out.println(blackjackPlayer.getPlayerName() + "'s hand value is: " + calculateBlackjackHandValue(blackjackPlayer));
 
 
@@ -193,18 +193,20 @@ public class BlackjackGame extends CardGame {
 
     }
 
-
-    public void dealSplitHand(){
-        List<Card> startingHand = blackjackPlayer.getPlayerHand();
-        List<Card> currentHandPlaying = new ArrayList<>();
-        //Hand 1
-
-        currentHandPlaying.add(startingHand.get(0));
-        blackjackPlayer.setPlayerHand(currentHandPlaying);
+//TODO implement split
 
 
-
-    }
+//    public void dealSplitHand(){
+//        List<Card> startingHand = blackjackPlayer.getPlayerHand();
+//        List<Card> currentHandPlaying = new ArrayList<>();
+//        //Hand 1
+//
+//        currentHandPlaying.add(startingHand.get(0));
+//        blackjackPlayer.setPlayerHand(currentHandPlaying);
+//
+//
+//
+//    }
 
     public int calculateBlackjackHandValue(Player player){
         //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
@@ -213,7 +215,7 @@ public class BlackjackGame extends CardGame {
         int blackjackCardValue = 0;
         int aceCounter = 0;
 
-        for (Card card : player.getPlayerHand()){
+        for (Card card : player.getPlayerHand().getCardsInHandAsList()){
             //check for ace and set it to max value
             if(card.getValue() == 14){
                 aceCounter++;
@@ -231,7 +233,7 @@ public class BlackjackGame extends CardGame {
         }
 
         //check for blackjack
-        if(blackjackHandValue == 21 && player.getPlayerHand().size() == 2){
+        if(blackjackHandValue == 21 && player.getPlayerHand().getCardsInHandAsList().size() == 2){
             return 0;
         }
 
@@ -389,8 +391,8 @@ public class BlackjackGame extends CardGame {
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer);
 
-        blackjackDealer.getPlayerHand().get(1).turnOver();
-        outputHand(blackjackDealer);
+        blackjackDealer.getPlayerHand().getCardInSpecificPosition(1).turnOver();
+        blackjackDealer.getPlayerHand().outputHandToConsole();
         System.out.println("Dealer has " + dealerHandValue);
 
         //TimeUnit.SECONDS.sleep(1);
