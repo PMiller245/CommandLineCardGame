@@ -1,4 +1,4 @@
-package com.pmiller.Blackjack;
+package com.pmiller.Blackjack.GameStates;
 
 import com.pmiller.Player;
 

@@ -1,8 +1,10 @@
-package com.pmiller.Blackjack;
+package com.pmiller.Blackjack.GameStates;
 
+import com.pmiller.Blackjack.BlackjackGame;
+import com.pmiller.Blackjack.GameStates.BlackjackGameState;
 import com.pmiller.Player;
 
-public class BettingState implements BlackjackGameState{
+public class BettingState implements BlackjackGameState {
 
     BlackjackGame blackjackGame;
     //variable to prevent deal from happening before the bet is placed

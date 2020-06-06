@@ -1,5 +1,9 @@
 package com.pmiller.Blackjack;
 
+import com.pmiller.Blackjack.GameStates.BettingState;
+import com.pmiller.Blackjack.GameStates.BlackjackGameState;
+import com.pmiller.Blackjack.GameStates.DealerTurnState;
+import com.pmiller.Blackjack.GameStates.PlayerTurnState;
 import com.pmiller.Card;
 import com.pmiller.CardGame;
 import com.pmiller.Player;
@@ -189,6 +193,19 @@ public class BlackjackGame extends CardGame {
 
     }
 
+
+    public void dealSplitHand(){
+        List<Card> startingHand = blackjackPlayer.getPlayerHand();
+        List<Card> currentHandPlaying = new ArrayList<>();
+        //Hand 1
+
+        currentHandPlaying.add(startingHand.get(0));
+        blackjackPlayer.setPlayerHand(currentHandPlaying);
+
+
+
+    }
+
     public int calculateBlackjackHandValue(Player player){
         //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
 
@@ -321,7 +338,7 @@ public class BlackjackGame extends CardGame {
             System.out.println(evaluatedPlayer.getPlayerName() + " has a blackjack!");
             //blackjack pay 2:1
             winningPlayerMoneyWon = 3*winningPlayerMoneyWon;
-            evaluatedPlayer.distributeWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
             evaluatedPlayer.outputMoney();
             clearTable();
             return;
@@ -329,7 +346,7 @@ public class BlackjackGame extends CardGame {
         } else if (isBlackjack && isPush){
 
             System.out.println("Dealer and " + evaluatedPlayer.getPlayerName() + " both have blackjacks!  Push!");
-            evaluatedPlayer.distributeWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
             evaluatedPlayer.outputMoney();
             clearTable();
             return;
@@ -338,7 +355,7 @@ public class BlackjackGame extends CardGame {
 
         if(isPush){
 
-            evaluatedPlayer.distributeWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
             evaluatedPlayer.outputMoney();
             clearTable();
             return;
@@ -346,7 +363,7 @@ public class BlackjackGame extends CardGame {
         }
 
         if(didWin){
-            evaluatedPlayer.distributeWinnings(2*winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(2*winningPlayerMoneyWon);
             evaluatedPlayer.outputMoney();
         }
 

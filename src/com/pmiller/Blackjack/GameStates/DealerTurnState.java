@@ -1,8 +1,9 @@
-package com.pmiller.Blackjack;
+package com.pmiller.Blackjack.GameStates;
 
+import com.pmiller.Blackjack.BlackjackGame;
 import com.pmiller.Player;
 
-public class DealerTurnState implements BlackjackGameState{
+public class DealerTurnState implements BlackjackGameState {
 
     BlackjackGame blackjackGame;
 

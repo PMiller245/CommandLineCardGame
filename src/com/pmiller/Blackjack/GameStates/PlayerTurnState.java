@@ -1,11 +1,12 @@
-package com.pmiller.Blackjack;
+package com.pmiller.Blackjack.GameStates;
 
+import com.pmiller.Blackjack.BlackjackGame;
 import com.pmiller.Card;
 import com.pmiller.Player;
 
 import java.util.List;
 
-public class PlayerTurnState implements BlackjackGameState{
+public class PlayerTurnState implements BlackjackGameState {
 
     //Constructor
 

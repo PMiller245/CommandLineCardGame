@@ -1,22 +1,27 @@
 package com.pmiller;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Player {
 
+    private final Hand hand = new Hand();
     private int money;
-    private boolean isDealer;
+    private boolean isHouse;
     private String playerName;
     private int moneyAtStake;
-    private List<Card> playerHand = new ArrayList<>();
+    private boolean isDealer;
+    private Map<String,Hand> hands = new HashMap<>();
 
 
+    public Player(boolean isHouse){
 
-    public Player(boolean isDealer){
-
-        this.playerName = "Dealer";
-        this.isDealer = isDealer;
+        this.playerName = "House";
+        this.isHouse = isHouse;
         this.money = 1000000;
         this.moneyAtStake = 0;
     }
@@ -28,12 +33,15 @@ public class Player {
         this.playerName = playerName;
         this.money = startingMoney;
         this.moneyAtStake = 0;
+        this.isDealer = false;
     }
 
     public Player(String playerName){
 
         this.playerName = playerName;
+        this.money = 100;
         this.moneyAtStake = 0;
+        this.isDealer = false;
 
     }
 
@@ -43,6 +51,7 @@ public class Player {
         this.playerName = "Player";
         this.money = 100;
         this.moneyAtStake = 0;
+        this.isDealer = false;
     }
 
     public String getPlayerName() {
@@ -58,12 +67,16 @@ public class Player {
     public int getMoneyAtStake(){return this.moneyAtStake;}
 
     public List<Card> getPlayerHand() {
-        return playerHand;
+        return hand.getPlayerHand();
     }
 
-    public boolean getIsDealer(){return isDealer;}
+    public boolean getIsDealer(){return isHouse;}
 
     public int getMoney(){return this.money;}
+
+    public void setPlayerHand(List<Card> playerHand) {
+        hand.setPlayerHand(playerHand);
+    }
 
     //Methods
 
@@ -85,7 +98,7 @@ public class Player {
 
 
     //passed in winnings calculated at the blackjack table with this players money at stake property
-    public void distributeWinnings(int winnings){
+    public void receiveWinnings(int winnings){
 
         this.moneyAtStake = 0;
         this.money = this.money + winnings;
@@ -101,13 +114,39 @@ public class Player {
         System.out.println(this.playerName + " has "+ this.moneyAtStake + " currently at stake" );
     }
 
-    public void addToHand(Card card){
-        this.playerHand.add(card);
+
+    public void addHandToPlayer(String handName, Hand handToAdd){
+
+        this.hands.put(handName, handToAdd);
 
     }
 
+    public void addToHand(Card card){
+
+        this.hand.addToHand(card);
+    }
+
+
+    //if they have more than one hand
+    public void addToHand(Card card, String handName){
+
+        hands.get(handName).addToHand(card);
+    }
+
     public void discardHand(){
-        this.playerHand.clear();
+
+        hand.discardHand();
+    }
+
+    //if they have more than one hand
+    public void discardHand(String handName){
+
+        hands.get(handName).discardHand();
+    }
+
+    public void removeHand(String handName){
+
+        hands.remove(handName);
 
     }
 
