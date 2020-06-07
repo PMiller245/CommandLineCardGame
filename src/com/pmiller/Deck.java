@@ -24,10 +24,10 @@ public class Deck {
 
         for (int i = 2; i < 15; i++) {
 
-            this.cards.add(new Card("Spades",i));
-            this.cards.add(new Card("Clubs",i));
-            this.cards.add(new Card("Hearts",i));
-            this.cards.add(new Card("Diamonds",i));
+            this.cards.add(new Card("Spades", i));
+            this.cards.add(new Card("Clubs", i));
+            this.cards.add(new Card("Hearts", i));
+            this.cards.add(new Card("Diamonds", i));
 
             //System.out.println(this.cards);
         }
@@ -35,17 +35,18 @@ public class Deck {
         shuffle();
 
     }
+
     public Deck(int numberOfDecks) {
 
         this.cards = new ArrayList<>();
 
-        for (int i = 0; i < numberOfDecks; i ++){
+        for (int i = 0; i < numberOfDecks; i++) {
             for (int j = 2; j < 15; j++) {
 
-                this.cards.add(new Card("Spades",j));
-                this.cards.add(new Card("Clubs",j));
-                this.cards.add(new Card("Hearts",j));
-                this.cards.add(new Card("Diamonds",j));
+                this.cards.add(new Card("Spades", j));
+                this.cards.add(new Card("Clubs", j));
+                this.cards.add(new Card("Hearts", j));
+                this.cards.add(new Card("Diamonds", j));
 
                 //System.out.println(this.cards);
             }
@@ -61,10 +62,9 @@ public class Deck {
 
     }
 
-    public int size(){
+    public int size() {
         return this.cards.size();
     }
-
 
 
     //getters
@@ -76,12 +76,12 @@ public class Deck {
 
     //methods
 
-    public Card[] draw(int numberOfCards){
+    public Card[] draw(int numberOfCards) {
 
         Card[] cardArray = new Card[numberOfCards];
 
 
-        for (int i = 0; i < numberOfCards; i++ ) {
+        for (int i = 0; i < numberOfCards; i++) {
 
             cardArray[i] = this.cards.remove(i);
 
@@ -93,7 +93,7 @@ public class Deck {
         return cardArray;
     }
 
-    public String printCard(int index){
+    public String printCard(int index) {
         System.out.println("printing card at" + index);
 
 

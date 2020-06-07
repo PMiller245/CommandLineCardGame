@@ -3,7 +3,7 @@ package com.pmiller;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hand{
+public class Hand {
 
     List<Card> cardsInHand = new ArrayList<Card>();
 
@@ -23,7 +23,7 @@ public class Hand{
         this.cardsInHand = cardsInHand;
     }
 
-    public Card getCardInSpecificPosition(int position){
+    public Card getCardInSpecificPosition(int position) {
         return this.cardsInHand.get(position);
     }
 
@@ -56,13 +56,13 @@ public class Hand{
 //
 //    }
 
-    public void outputHandToConsole(){
+    public void outputHandToConsole() {
 
         System.out.println("Outputting hand.");
 
-        for (Card card : cardsInHand){
+        for (Card card : cardsInHand) {
 
-            if(card.isFaceUp() == true){
+            if (card.isFaceUp() == true) {
                 System.out.println(card.getFaceValue());
             } else {
 

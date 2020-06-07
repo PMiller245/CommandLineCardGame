@@ -14,7 +14,7 @@ public class DealerTurnState implements BlackjackGameState {
     }
 
     @Override
-    public void makeInitialBet(Player player, int bet){
+    public void makeInitialBet(Player player, int bet) {
         System.out.println("It is the dealers turn");
     }
 

@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 public class CardGame {
 
-    //Card game class constructs what game needs to be played and passes in appropriate information
+    //Card game class constructs what game needs to be played and passes in appropriate information.
+    //provides methods for getting specific players from the game
 
 
     //Properties
@@ -30,6 +31,17 @@ public class CardGame {
 
 
     }
+
+    public CardGame(int numberOfDecks){
+
+
+        this.player = new Player("Player1");
+        this.deck = new Deck(numberOfDecks);
+
+
+    }
+
+
 
     public CardGame(int numberOfDecks, Player currentPlayer){
 

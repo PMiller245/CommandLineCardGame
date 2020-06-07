@@ -12,10 +12,10 @@ public class Player {
     private String playerName;
     private int moneyAtStake;
     private boolean isDealer;
-    private Map<String,Hand> hands = new HashMap<>();
+    private Map<String, Hand> hands = new HashMap<>();
 
 
-    public Player(boolean isHouse){
+    public Player(boolean isHouse) {
 
         this.playerName = "House";
         this.isHouse = isHouse;
@@ -24,8 +24,7 @@ public class Player {
     }
 
 
-
-    public Player(String playerName, int startingMoney){
+    public Player(String playerName, int startingMoney) {
 
         this.playerName = playerName;
         this.money = startingMoney;
@@ -33,7 +32,7 @@ public class Player {
         this.isDealer = false;
     }
 
-    public Player(String playerName){
+    public Player(String playerName) {
 
         this.playerName = playerName;
         this.money = 100;
@@ -43,7 +42,7 @@ public class Player {
     }
 
 
-    public Player(){
+    public Player() {
 
         this.playerName = "Player";
         this.money = 100;
@@ -55,21 +54,29 @@ public class Player {
         return playerName;
     }
 
-    public void setMoney(int money){
+    public void setMoney(int money) {
         this.money = money;
     }
 
-    public void setMoneyAtStake(int moneyAtStake) { this.moneyAtStake = moneyAtStake;}
+    public void setMoneyAtStake(int moneyAtStake) {
+        this.moneyAtStake = moneyAtStake;
+    }
 
-    public int getMoneyAtStake(){return this.moneyAtStake;}
+    public int getMoneyAtStake() {
+        return this.moneyAtStake;
+    }
 
     public Hand getPlayerHand() {
         return hand;
     }
 
-    public boolean getIsDealer(){return isHouse;}
+    public boolean getIsDealer() {
+        return isHouse;
+    }
 
-    public int getMoney(){return this.money;}
+    public int getMoney() {
+        return this.money;
+    }
 
     public void setPlayerHand(List<Card> playerHand) {
         hand.setCardsInHand(playerHand);
@@ -77,10 +84,10 @@ public class Player {
 
     //Methods
 
-    public boolean placeBet(int bidAmount){
+    public boolean placeBet(int bidAmount) {
         //returns false if bid cant be made.  Updates money at stake and money if bid is made
 
-        if(bidAmount > this.money){
+        if (bidAmount > this.money) {
 
             System.out.println("bid cant be made");
             return false;
@@ -93,55 +100,51 @@ public class Player {
 
     }
 
-
-    //passed in winnings calculated at the blackjack table with this players money at stake property
-    public void receiveWinnings(int winnings){
+    public void receiveWinnings(int winnings) {
 
         this.moneyAtStake = 0;
         this.money = this.money + winnings;
 
     }
 
-    public void outputMoney(){
-        System.out.println(this.playerName + " has "+ this.money + " in his bank account" );
+    public void outputMoney() {
+        System.out.println(this.playerName + " has " + this.money + " in his bank account");
 
     }
 
-    public void outputMoneyAtStake(){
-        System.out.println(this.playerName + " has "+ this.moneyAtStake + " currently at stake" );
+    public void outputMoneyAtStake() {
+        System.out.println(this.playerName + " has " + this.moneyAtStake + " currently at stake");
     }
 
-
-    public void addHandToPlayer(String handName, Hand handToAdd){
+    public void addHandToPlayer(String handName, Hand handToAdd) {
 
         this.hands.put(handName, handToAdd);
 
     }
 
-    public void addToHand(Card card){
+    public void addToHand(Card card) {
 
         this.hand.addToHand(card);
     }
 
-
     //if they have more than one hand
-    public void addToHand(Card card, String handName){
+    public void addToHand(Card card, String handName) {
 
         hands.get(handName).addToHand(card);
     }
 
-    public void discardHand(){
+    public void discardHand() {
 
         hand.discardHand();
     }
 
     //if they have more than one hand
-    public void discardHand(String handName){
+    public void discardHand(String handName) {
 
         hands.get(handName).discardHand();
     }
 
-    public void removeHand(String handName){
+    public void removeHand(String handName) {
 
         hands.remove(handName);
 

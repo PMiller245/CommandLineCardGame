@@ -21,12 +21,11 @@ public class BettingState implements BlackjackGameState {
 
         betPlaced = false;
 
-        if(bettingPlayer.placeBet(bet) == true){
+        if (bettingPlayer.placeBet(bet) == true) {
             System.out.println(bettingPlayer.getPlayerName() + "'s bet of " + bet + " was accepted.");
             bettingPlayer.outputMoney();
             bettingPlayer.outputMoneyAtStake();
-            betPlaced=true;
-
+            betPlaced = true;
 
 
         } else {
@@ -54,14 +53,13 @@ public class BettingState implements BlackjackGameState {
     public void deal() {
 
 
-        if(betPlaced){
+        if (betPlaced) {
             blackjackGame.setState(blackjackGame.getPlayerTurnState());
             blackjackGame.dealHand();
             betPlaced = false;
         } else {
             System.out.println("No bet was placed!");
         }
-
 
 
     }
