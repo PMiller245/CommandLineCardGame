@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class Player {
 
-    private Hand hand = new Hand();
+    protected Hand hand = new Hand();
     private int money;
     private boolean isHouse;
     private String playerName;
-    private int moneyAtStake;
+    protected int moneyAtStake;
     private boolean isDealer;
     private Map<String, Hand> hands = new HashMap<>();
 
@@ -70,7 +70,7 @@ public class Player {
         return hand;
     }
 
-    public boolean getIsDealer() {
+    public boolean getIsHouse() {
         return isHouse;
     }
 

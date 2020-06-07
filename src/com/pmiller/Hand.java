@@ -5,9 +5,11 @@ import java.util.List;
 
 public class Hand {
 
-    List<Card> cardsInHand = new ArrayList<Card>();
+    protected List<Card> cardsInHand;
 
     public Hand() {
+
+        this.cardsInHand = new ArrayList<>();
     }
 
     public Hand(List<Card> cardsInHand) {

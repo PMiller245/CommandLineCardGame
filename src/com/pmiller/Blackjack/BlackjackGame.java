@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class BlackjackGame extends CardGame {
 
+
     //Properties
 
     //    private int numberOfDecks;
@@ -23,9 +24,9 @@ public class BlackjackGame extends CardGame {
     private Player blackjackDealer;
     private BlackjackPlayer cardgamePlayer;
     private BlackjackPlayer blackjackPlayer;
+    private Deck deck;
     private int blackjackHandValue;
     private List<String> listOfCommands = new ArrayList<>();
-    private Deck blackjackDeck;
     private BlackjackGameState playerTurnState;
     private BlackjackGameState dealerTurnState;
     private BlackjackGameState bettingState;
@@ -39,7 +40,7 @@ public class BlackjackGame extends CardGame {
 
         super(numberOfDecks);
         this.blackjackPlayer = new BlackjackPlayer((currentPlayer));
-        this.blackjackDeck = new Deck(numberOfDecks);
+        this.deck = new Deck(numberOfDecks);
         this.cardgamePlayer = new BlackjackPlayer(currentPlayer);
         this.blackjackDealer = new Player(true);
 
@@ -63,6 +64,7 @@ public class BlackjackGame extends CardGame {
 
 
         //printBlackjackDeck(); was printing blackjack deck to verify creation
+
 
     }
 
@@ -92,6 +94,11 @@ public class BlackjackGame extends CardGame {
         return state;
     }
 
+    @Override
+    public Deck getDeck(){
+        return this.deck;
+    }
+
 
     //Setters
 
@@ -103,9 +110,9 @@ public class BlackjackGame extends CardGame {
     //testing function to print rest of deck
     public void printBlackjackDeck() {
 
-        for (int i = 0; i < super.getDeck().size(); i++) {
+        for (int i = 0; i < deck.size(); i++) {
 
-            System.out.println(super.getDeck().printCard(i));
+            System.out.println(deck.printCard(i));
         }
 
         // System.out.println("WE MADE A GAME FOR " + super.getPlayer().getPlayerName());
@@ -118,7 +125,7 @@ public class BlackjackGame extends CardGame {
         int betAmount = 0;
         //Deal first hand
         System.out.println("Type \"exit\" to exit at anytime");
-        super.getDeck().shuffle();
+        deck.shuffle();
         this.setState(this.bettingState);
         System.out.println("Please place your initial  bets by typing \"bet\"");
         //dealHand();
@@ -167,15 +174,15 @@ public class BlackjackGame extends CardGame {
     public void dealHand() {
 
 
-        cardgamePlayer.addToHand(super.getDeck().draw(1)[0]);
+        cardgamePlayer.addToHand(deck.draw(1)[0]);
         cardgamePlayer.getPlayerHand().getCardInSpecificPosition(0).turnOver();
-        blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
+        blackjackDealer.addToHand(deck.draw(1)[0]);
         blackjackDealer.getPlayerHand().getCardInSpecificPosition(0).turnOver();
-        cardgamePlayer.addToHand(super.getDeck().draw(1)[0]);
+        cardgamePlayer.addToHand(deck.draw(1)[0]);
         cardgamePlayer.getPlayerHand().getCardInSpecificPosition(1).turnOver();
 
         //last dealer card is face down
-        blackjackDealer.addToHand(super.getDeck().draw(1)[0]);
+        blackjackDealer.addToHand(deck.draw(1)[0]);
         //blackjackDealer.getPlayerHand().get(1).turnOver(); //comment to hide dealers card
 
 
@@ -260,6 +267,8 @@ public class BlackjackGame extends CardGame {
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer);
         int playerHandValue = calculateBlackjackHandValue(cardgamePlayer);
+
+
 
         //check for blackjacks (hand values of 0 denote blackjack)
         if (playerHandValue == 0 && !(dealerHandValue == 0)) {
