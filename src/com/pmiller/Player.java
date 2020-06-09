@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Player {
+public abstract class Player {
 
-    protected Hand hand = new Hand();
+    private Hand hand = new Hand();
     private int money;
     private boolean isHouse;
     private String playerName;
-    protected int moneyAtStake;
+    private int moneyAtStake;
     private boolean isDealer;
-    private Map<String, Hand> hands = new HashMap<>();
+
 
 
     public Player(boolean isHouse) {
@@ -78,6 +78,7 @@ public class Player {
         return this.money;
     }
 
+
     public void setPlayerHand(List<Card> playerHand) {
         hand.setCardsInHand(playerHand);
     }
@@ -116,39 +117,22 @@ public class Player {
         System.out.println(this.playerName + " has " + this.moneyAtStake + " currently at stake");
     }
 
-    public void addHandToPlayer(String handName, Hand handToAdd) {
-
-        this.hands.put(handName, handToAdd);
-
-    }
 
     public void addToHand(Card card) {
 
         this.hand.addToHand(card);
     }
 
-    //if they have more than one hand
-    public void addToHand(Card card, String handName) {
 
-        hands.get(handName).addToHand(card);
-    }
 
     public void discardHand() {
 
         hand.discardHand();
     }
 
-    //if they have more than one hand
-    public void discardHand(String handName) {
 
-        hands.get(handName).discardHand();
-    }
 
-    public void removeHand(String handName) {
 
-        hands.remove(handName);
-
-    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.pmiller;
 
 import com.pmiller.Blackjack.BlackjackGame;
+import com.pmiller.Blackjack.BlackjackPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,11 @@ public class CardGameFactory {
 
     private List<String> listOfGames = new ArrayList<>();
     private Scanner input;
-    private Player currentPlayer;
+    private BlackjackPlayer currentPlayer;
 
 
 
-    public CardGameFactory(Player currentPlayer){
+    public CardGameFactory(BlackjackPlayer currentPlayer){
 
 
         this.currentPlayer = currentPlayer;

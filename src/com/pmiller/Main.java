@@ -1,6 +1,7 @@
 package com.pmiller;
 
 import com.pmiller.Blackjack.BlackjackGame;
+import com.pmiller.Blackjack.BlackjackPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,12 @@ public class Main {
     public static void main(String[] args) {
 	Scanner input = new Scanner(System.in);
 
-        Player testPlayer = new Player("Peter", 100);
+        BlackjackPlayer testPlayer = new BlackjackPlayer("Peter", 100);
         BlackjackGame createdGame = new BlackjackGame(2, testPlayer);
 
 	System.out.println("Please enter your name: ");
     String userInput = input.nextLine();
-        Player currentPlayer = new Player(userInput);
+        BlackjackPlayer currentPlayer = new BlackjackPlayer(userInput, 100);
 
 
         System.out.println("Hello " + currentPlayer.getPlayerName());

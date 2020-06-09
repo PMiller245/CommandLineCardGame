@@ -7,7 +7,7 @@ import com.pmiller.Player;
 
 import java.util.List;
 
-public class PlayerTurnState implements BlackjackGameState {
+public class SplitTurnState implements BlackjackGameState {
 
     //Constructor
 
@@ -17,7 +17,7 @@ public class PlayerTurnState implements BlackjackGameState {
     private int initialBet;
 
 
-    public PlayerTurnState(BlackjackGame blackjackGame) {
+    public SplitTurnState(BlackjackGame blackjackGame) {
 
         this.blackjackGame = blackjackGame;
         this.player = blackjackGame.getBlackjackPlayer();
@@ -40,10 +40,10 @@ public class PlayerTurnState implements BlackjackGameState {
         System.out.println("Dealing one card");
         hitCard = blackjackGame.getDeck().draw(1)[0];
         hitCard.turnOver();
-        blackjackGame.getBlackjackPlayer().addToHand(hitCard);
+        blackjackGame.getBlackjackPlayer().addToHand(hitCard,0);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         //check busts
-        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand()) == -1) {
+        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(0)) == -1) {
             blackjackGame.evaluateHand();
             return;
 
@@ -84,7 +84,6 @@ public class PlayerTurnState implements BlackjackGameState {
                 System.out.println("Cards have been split! Playing hand one...");
                 player.placeBet(player.getMoneyAtStake());
                 player.splitHand(player.getPlayerHand());
-                blackjackGame.setState(blackjackGame.getSplitState());
 
             } else {
                 System.out.println("You can't split!");

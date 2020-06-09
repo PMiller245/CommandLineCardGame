@@ -16,6 +16,13 @@ public class BlackjackHand extends Hand {
 
     }
 
+
+    public int getBlackjackHandValue(){
+        calculateBlackjackHandValue();
+        return blackjackHandValue;
+
+    }
+
     public int calculateBlackjackHandValue() {
         //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
 
@@ -60,7 +67,7 @@ public class BlackjackHand extends Hand {
         if (blackjackHandValue > 21) {
             return -1;
         }
-
+        System.out.println("Called the BJ Calc method in BJ Hand class and its " + blackjackHandValue);
         return blackjackHandValue;
 
 

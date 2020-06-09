@@ -26,7 +26,7 @@ public class CardGame {
     public CardGame(){
 
 
-        this.player = new Player("Player1");
+        //this.player = new Player("Player1");
         this.deck = new Deck();
 
 
@@ -35,7 +35,7 @@ public class CardGame {
     public CardGame(int numberOfDecks){
 
 
-        this.player = new Player("Player1");
+        //this.player = new Player("Player1");
         this.deck = new Deck(numberOfDecks);
 
 
