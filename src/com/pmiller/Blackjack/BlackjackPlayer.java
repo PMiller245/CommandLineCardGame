@@ -18,14 +18,13 @@ public class BlackjackPlayer extends Player {
     private BlackjackHand hand;
 
 
-    public BlackjackPlayer(String playerName, int startingMoney){
+    public BlackjackPlayer(String playerName, int startingMoney) {
 
         super(playerName, startingMoney);
 
-
     }
 
-    public BlackjackPlayer(boolean isHouse){
+    public BlackjackPlayer(boolean isHouse) {
 
         super(isHouse);
     }
@@ -35,7 +34,7 @@ public class BlackjackPlayer extends Player {
         return isSplit;
     }
 
-    public void splitHand(Hand handToBeSplit){
+    public void splitHand(Hand handToBeSplit) {
 
         Hand firstSplitHand = new Hand();
         Hand secondSplitHand = new Hand();
@@ -49,15 +48,15 @@ public class BlackjackPlayer extends Player {
 
     }
 
-    public void addHandToPlayerHandList(Hand hand){
+    public void addHandToPlayerHandList(Hand hand) {
 
 
     }
 
 
     //cleanup to remove hand at first position
-    public void removeHand(){
-        if(hands.size()  > 0) {
+    public void removeHand() {
+        if (hands.size() > 0) {
 
             hands.remove(0);
         }
@@ -65,18 +64,23 @@ public class BlackjackPlayer extends Player {
     }
 
 
-    public void addToHand(Card card, int handIndex){
+    public void addToHand(Card card, int handIndex) {
 
         hands.get(handIndex).addToHand(card);
-
-
 
     }
 
 
-    public Hand getPlayerHand(int index){
+    public Hand getPlayerHand(int index) {
 
         return hands.get(index);
+
+
+    }
+
+    public List<Hand> getPlayerHands() {
+
+        return hands;
 
 
     }

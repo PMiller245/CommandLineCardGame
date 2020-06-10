@@ -15,6 +15,7 @@ public class SplitTurnState implements BlackjackGameState {
     private BlackjackPlayer player;
     private List<Card> playerHand;
     private int initialBet;
+    private int handNumberBeingPlayed;
 
 
     public SplitTurnState(BlackjackGame blackjackGame) {
@@ -23,6 +24,7 @@ public class SplitTurnState implements BlackjackGameState {
         this.player = blackjackGame.getBlackjackPlayer();
         this.playerHand = this.player.getPlayerHand().getCardsInHandAsList();
         this.initialBet = player.getMoneyAtStake();
+        this.handNumberBeingPlayed = 0;
 
     }
 
@@ -40,16 +42,18 @@ public class SplitTurnState implements BlackjackGameState {
         System.out.println("Dealing one card");
         hitCard = blackjackGame.getDeck().draw(1)[0];
         hitCard.turnOver();
-        blackjackGame.getBlackjackPlayer().addToHand(hitCard,0);
+        blackjackGame.getBlackjackPlayer().addToHand(hitCard,handNumberBeingPlayed);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         //check busts
-        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(0)) == -1) {
-            blackjackGame.evaluateHand();
+        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed)) == -1) {
+            //mark hand as bust and move to next hand
+            System.out.println("Hand bust, moving to next hand");
+            handNumberBeingPlayed++;
             return;
 
         }
 
-        System.out.println("Your total is now: " + blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand()));
+        System.out.println("Your total is now: " + blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed)));
 
 
     }
@@ -58,8 +62,14 @@ public class SplitTurnState implements BlackjackGameState {
     public void stand() {
 
         //blackjackGame.evaluateHand();
-        blackjackGame.setState(blackjackGame.getDealerTurnState());
-        blackjackGame.dealerHit();
+        if(handNumberBeingPlayed == blackjackGame.getBlackjackPlayer().getPlayerHands().size()){
+            blackjackGame.setState(blackjackGame.getDealerTurnState());
+            blackjackGame.dealerHit();
+
+        } else {
+            handNumberBeingPlayed++;
+        }
+
 
 
     }
@@ -117,3 +127,6 @@ public class SplitTurnState implements BlackjackGameState {
     }
 
 }
+
+
+

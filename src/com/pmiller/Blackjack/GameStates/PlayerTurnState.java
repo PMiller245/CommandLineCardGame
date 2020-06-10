@@ -44,7 +44,7 @@ public class PlayerTurnState implements BlackjackGameState {
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         //check busts
         if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand()) == -1) {
-            blackjackGame.evaluateHand();
+            blackjackGame.evaluateHand(blackjackGame.getBlackjackPlayer().getPlayerHand());
             return;
 
         }

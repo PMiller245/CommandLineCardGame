@@ -24,6 +24,7 @@ public class BlackjackGame extends CardGame {
     private BlackjackGameState dealerTurnState;
     private BlackjackGameState bettingState;
     private BlackjackGameState splitState;
+    private BlackjackGameState cleanUpState;
     private BlackjackGameState state;
 
 
@@ -46,6 +47,7 @@ public class BlackjackGame extends CardGame {
         this.dealerTurnState = new DealerTurnState(this);
         this.bettingState = new BettingState(this);
         this.splitState = new SplitTurnState(this);
+        this.cleanUpState = new CleanUpState(this);
 
 
         //game should be in betting state to begin with
@@ -278,12 +280,12 @@ public class BlackjackGame extends CardGame {
 
     //Calculates the winner then calls the evaluate winnings function, passing in the winning player.  Outputs a message if a winner is found
 
-    public void evaluateHand() {
+    public void evaluateHand(Hand hand) {
 
         //blackjacks have already been checked, they are checked within the dealHand function
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
-        int playerHandValue = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand());
+        int playerHandValue = calculateBlackjackHandValue(hand);
 
         //check for busts
 
@@ -335,6 +337,7 @@ public class BlackjackGame extends CardGame {
             winningPlayerMoneyWon = 3 * winningPlayerMoneyWon;
             evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
             evaluatedPlayer.outputMoney();
+
             clearTableAndSetToBetState();
 
             return;
@@ -392,8 +395,9 @@ public class BlackjackGame extends CardGame {
         //TimeUnit.SECONDS.sleep(1);
 
         if (dealerHandValue >= 17) {
-            evaluateHand();
-            return;
+            //evaluateHand(blackjackPlayer.getPlayerHand());
+            System.out.println("Dealer is greater than 17");
+
         }
 
         while (calculateBlackjackHandValue(blackjackDealer.getPlayerHand()) < 17) {
@@ -406,14 +410,16 @@ public class BlackjackGame extends CardGame {
 
             //check for bust by dealer
             if (calculateBlackjackHandValue(blackjackDealer.getPlayerHand()) == -1) {
-                evaluateHand();
-                return;
+                //evaluateHand(blackjackPlayer.getPlayerHand());
+                System.out.println("Dealer bust in dealer hit function");
+                break;
 
             }
             System.out.println("Dealer total is now: " + calculateBlackjackHandValue(blackjackDealer.getPlayerHand()));
         }
 
-        evaluateHand();
+        //evaluateHand(blackjackPlayer.getPlayerHand());
+
 
     }
 
