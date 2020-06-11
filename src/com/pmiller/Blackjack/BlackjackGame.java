@@ -165,6 +165,11 @@ public class BlackjackGame extends CardGame {
 
             }
 
+            if (userInput.equalsIgnoreCase("money")) {
+                System.out.println(blackjackPlayer.getMoney());
+
+            }
+
         }
     }
 
@@ -257,7 +262,7 @@ public class BlackjackGame extends CardGame {
 
         //check for blackjacks (hand values of 0 denote blackjack)
         if (playerHandValue == 0 && !(dealerHandValue == 0)) {
-            //System.out.println("Blackjack! Player wins!");
+            System.out.println("Blackjack! Player wins!");
             distributePayouts(blackjackPlayer, false, true, true);
 
         } else if (!(playerHandValue == 0) && dealerHandValue == 0) {
@@ -278,51 +283,55 @@ public class BlackjackGame extends CardGame {
 
 
 
-    //Calculates the winner then calls the distributes payout function, passing in the winning player.  Outputs a message if a winner is found
+    //takes in a hand and returns the winning multiple (0 for loss, 1 for push, 2 for win)
 
-    public void evaluateHand(Hand hand) {
+    public int evaluateHandAndReturnPayoutMultiplier(Hand hand) {
 
         //blackjacks have already been checked, they are checked within the dealHand function
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
         int playerHandValue = calculateBlackjackHandValue(hand);
-        int winningsMultiplier;
 
         //check for busts
 
         if (playerHandValue == -1 && !(dealerHandValue == -1)) {
             System.out.println("Player Busts! Dealer Wins!");
-            distributePayouts(blackjackPlayer, false, false, false);
-            return;
+            //distributePayouts(blackjackPlayer, false, false, false);
+            return 0;
 
         } else if (!(playerHandValue == -1) && dealerHandValue == -1) {
 
             System.out.println("Dealer Busts, Player Wins");
-            distributePayouts(blackjackPlayer, false, false, true);
-            return;
+            //distributePayouts(blackjackPlayer, false, false, true);
+            return 2;
         } else if (playerHandValue == -1 && dealerHandValue == -1) {
             // System.out.println("Both players busted!  Push!!");
 
-            distributePayouts(blackjackPlayer, true, false, false);
+           // distributePayouts(blackjackPlayer, true, false, false);
 
-            return;
+            return 1;
         }
 
         if (playerHandValue > dealerHandValue) {
 
             System.out.println("Player wins!");
-            distributePayouts(blackjackPlayer, false, false, true);
+            //distributePayouts(blackjackPlayer, false, false, true);
+            return 2;
 
         } else if (dealerHandValue > playerHandValue) {
             System.out.println("Dealer wins!");
-            distributePayouts(blackjackPlayer, false, false, false);
+           // distributePayouts(blackjackPlayer, false, false, false);
+            return 0;
 
         } else if (dealerHandValue == playerHandValue) {
 
             System.out.println("Push! No winnings paid.");
-            distributePayouts(blackjackPlayer, true, false, false);
+           // distributePayouts(blackjackPlayer, true, false, false);
+            return 1;
+
         }
 
+        return 0;
 
     }
 
@@ -336,7 +345,7 @@ public class BlackjackGame extends CardGame {
             System.out.println(evaluatedPlayer.getPlayerName() + " has a blackjack!");
             //blackjack pay 2:1
             winningPlayerMoneyWon = 3 * winningPlayerMoneyWon;
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
             evaluatedPlayer.outputMoney();
 
             clearTableAndSetToBetState();
@@ -346,7 +355,7 @@ public class BlackjackGame extends CardGame {
         } else if (isBlackjack && isPush) {
 
             System.out.println("Dealer and " + evaluatedPlayer.getPlayerName() + " both have blackjacks!  Push!");
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
             evaluatedPlayer.outputMoney();
             clearTableAndSetToBetState();
             return;
@@ -355,7 +364,7 @@ public class BlackjackGame extends CardGame {
 
         if (isPush) {
 
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
             evaluatedPlayer.outputMoney();
             clearTableAndSetToBetState();
             return;
@@ -363,7 +372,7 @@ public class BlackjackGame extends CardGame {
         }
 
         if (didWin) {
-            evaluatedPlayer.receiveWinnings(2 * winningPlayerMoneyWon);
+            evaluatedPlayer.receiveWinnings(2 * winningPlayerMoneyWon, 0);
             evaluatedPlayer.outputMoney();
         }
 
@@ -386,24 +395,22 @@ public class BlackjackGame extends CardGame {
     public void startPayouts(){
 
         this.state = cleanUpState;
-        int [] blackjackHandvalues = new int [];
+        int [] blackjackHandvalues = new int [blackjackPlayer.getPlayerHands().size()];
 
-        if(blackjackPlayer.getPlayerHands().size() > 1){
+        if(blackjackPlayer.getPlayerHands().size() >= 1){
 
             for(int i = 0; i < blackjackPlayer.getPlayerHands().size(); i++){
 
-                blackjackHandvalues[i] = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand(i));
-
+                //blackjackHandvalues[i] = evaluateHandAndReturnPayoutMultiplier(blackjackPlayer.getPlayerHand(i));
+                int winnings = blackjackPlayer.getPlayerHand(i).getMoneyBetOnThisHand()* evaluateHandAndReturnPayoutMultiplier(blackjackPlayer.getPlayerHand(i));
+                blackjackPlayer.receiveWinnings(winnings, 0);
 
 
             }
 
-
-
-
         }
 
-
+        clearTableAndSetToBetState();
 
 
     }

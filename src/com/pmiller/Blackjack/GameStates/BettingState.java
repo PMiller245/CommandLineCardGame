@@ -1,7 +1,6 @@
 package com.pmiller.Blackjack.GameStates;
 
 import com.pmiller.Blackjack.BlackjackGame;
-import com.pmiller.Blackjack.GameStates.BlackjackGameState;
 import com.pmiller.Player;
 
 public class BettingState implements BlackjackGameState {
@@ -21,7 +20,7 @@ public class BettingState implements BlackjackGameState {
 
         betPlaced = false;
 
-        if (bettingPlayer.placeBet(bet) == true) {
+        if (bettingPlayer.placeBet(bet, 0) == true) {
             System.out.println(bettingPlayer.getPlayerName() + "'s bet of " + bet + " was accepted.");
             bettingPlayer.outputMoney();
             bettingPlayer.outputMoneyAtStake();

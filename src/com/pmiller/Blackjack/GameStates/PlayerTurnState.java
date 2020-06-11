@@ -44,7 +44,7 @@ public class PlayerTurnState implements BlackjackGameState {
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         //check busts
         if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand()) == -1) {
-            blackjackGame.evaluateHand(blackjackGame.getBlackjackPlayer().getPlayerHand());
+            blackjackGame.dealerHit();
             return;
 
         }
@@ -82,7 +82,7 @@ public class PlayerTurnState implements BlackjackGameState {
 
             if ((player.getMoney() >= player.getMoneyAtStake())) {
                 System.out.println("Cards have been split! Playing hand one...");
-                player.placeBet(player.getMoneyAtStake());
+                player.placeBet(player.getMoneyAtStake(), 0);
                 player.splitHand(player.getPlayerHand());
                 blackjackGame.setState(blackjackGame.getSplitState());
 
@@ -103,7 +103,7 @@ public class PlayerTurnState implements BlackjackGameState {
 
 
         if ((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand().getCardsInHandAsList().size() == 2)) {
-            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake());
+            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake(), 0);
             hit();
             if (!blackjackGame.getBettingState().equals(blackjackGame.getState())) {
                 stand();

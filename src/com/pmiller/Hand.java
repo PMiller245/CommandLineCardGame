@@ -5,11 +5,14 @@ import java.util.List;
 
 public class Hand {
 
-    protected List<Card> cardsInHand;
+    private List<Card> cardsInHand;
+    private int moneyBetOnThisHand;
+
 
     public Hand() {
 
         this.cardsInHand = new ArrayList<>();
+        this.moneyBetOnThisHand = 0;
     }
 
     public Hand(List<Card> cardsInHand) {
@@ -27,6 +30,20 @@ public class Hand {
 
     public Card getCardInSpecificPosition(int position) {
         return this.cardsInHand.get(position);
+    }
+
+
+    public int getMoneyBetOnThisHand() {
+        return moneyBetOnThisHand;
+    }
+
+    public void setMoneyBetOnThisHand(int moneyBetOnThisHand) {
+        this.moneyBetOnThisHand = moneyBetOnThisHand;
+    }
+
+    public void addToMoneyBetOnThisHand(int moneyBetOnThisHand){
+        this.moneyBetOnThisHand += moneyBetOnThisHand;
+
     }
 
     public void addToHand(Card card) {

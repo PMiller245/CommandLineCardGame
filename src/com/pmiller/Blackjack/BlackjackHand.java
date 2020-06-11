@@ -30,7 +30,7 @@ public class BlackjackHand extends Hand {
         int blackjackCardValue = 0;
         int aceCounter = 0;
 
-        for (Card card : cardsInHand) {
+        for (Card card : super.getCardsInHandAsList()) {
             //check for ace and set it to max value
             if (card.getValue() == 14) {
                 aceCounter++;

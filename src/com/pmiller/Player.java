@@ -1,8 +1,7 @@
 package com.pmiller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Player {
 
@@ -12,6 +11,7 @@ public abstract class Player {
     private String playerName;
     private int moneyAtStake;
     private boolean isDealer;
+    private List<Hand> hands = new ArrayList<>();
 
 
 
@@ -21,6 +21,7 @@ public abstract class Player {
         this.isHouse = isHouse;
         this.money = 1000000;
         this.moneyAtStake = 0;
+        this.hands.add(this.hand);
     }
 
 
@@ -30,6 +31,7 @@ public abstract class Player {
         this.money = startingMoney;
         this.moneyAtStake = 0;
         this.isDealer = false;
+        this.hands.add(this.hand);
     }
 
     public Player(String playerName) {
@@ -38,6 +40,7 @@ public abstract class Player {
         this.money = 100;
         this.moneyAtStake = 0;
         this.isDealer = false;
+        this.hands.add(this.hand);
 
     }
 
@@ -67,7 +70,7 @@ public abstract class Player {
     }
 
     public Hand getPlayerHand() {
-        return hand;
+        return hands.get(0);
     }
 
     public boolean getIsHouse() {
@@ -80,13 +83,15 @@ public abstract class Player {
 
 
     public void setPlayerHand(List<Card> playerHand) {
-        hand.setCardsInHand(playerHand);
+        hands.get(0).setCardsInHand(playerHand);
     }
 
     //Methods
 
-    public boolean placeBet(int bidAmount) {
+    public boolean placeBet(int bidAmount, int handBetOn) {
         //returns false if bid cant be made.  Updates money at stake and money if bid is made
+
+        hands.get(handBetOn).addToMoneyBetOnThisHand(bidAmount);
 
         if (bidAmount > this.money) {
 
@@ -101,9 +106,10 @@ public abstract class Player {
 
     }
 
-    public void receiveWinnings(int winnings) {
+    public void receiveWinnings(int winnings, int handBetOn) {
 
-        this.moneyAtStake = 0;
+        this.moneyAtStake -= hands.get(handBetOn).getMoneyBetOnThisHand();;
+        hands.get(handBetOn).setMoneyBetOnThisHand(0);
         this.money = this.money + winnings;
 
     }
@@ -118,19 +124,47 @@ public abstract class Player {
     }
 
 
+    //When there is only one hand, default to index 0
     public void addToHand(Card card) {
 
-        this.hand.addToHand(card);
+        this.hands.get(0).addToHand(card);
     }
 
 
 
     public void discardHand() {
 
-        hand.discardHand();
+        hands.get(0).discardHand();
+    }
+
+    public Hand getPlayerHand(int index) {
+
+        return hands.get(index);
+
+
+    }
+
+    public List<Hand> getPlayerHands() {
+
+        return hands;
+
+
+    }
+
+    public void removeHand(int index) {
+        if (hands.size() > 0) {
+
+            hands.remove(index);
+        }
+
     }
 
 
+    public void addToHand(Card card, int handIndex) {
+
+        hands.get(handIndex).addToHand(card);
+
+    }
 
 
 
