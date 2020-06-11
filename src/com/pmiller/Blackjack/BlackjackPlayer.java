@@ -15,6 +15,10 @@ public class BlackjackPlayer extends Player {
     private List<Hand> hands = new ArrayList<>();
     private boolean isSplit;
 
+
+
+    private boolean hasBlackjack;
+
     private BlackjackHand hand;
 
 
@@ -29,10 +33,17 @@ public class BlackjackPlayer extends Player {
         super(isHouse);
     }
 
+    public boolean getHasBlackjack() {
+        return hasBlackjack;
+    }
 
+    public void setHasBlackjack(boolean hasBlackjack) {
+        this.hasBlackjack = hasBlackjack;
+    }
     public boolean getIsSplit() {
         return isSplit;
     }
+
 
     public void splitHand(Hand handToBeSplit) {
 
