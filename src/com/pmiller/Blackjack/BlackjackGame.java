@@ -258,16 +258,16 @@ public class BlackjackGame extends CardGame {
         //check for blackjacks (hand values of 0 denote blackjack)
         if (playerHandValue == 0 && !(dealerHandValue == 0)) {
             //System.out.println("Blackjack! Player wins!");
-            evaluateWinnings(blackjackPlayer, false, true, true);
+            distributePayouts(blackjackPlayer, false, true, true);
 
         } else if (!(playerHandValue == 0) && dealerHandValue == 0) {
 
             System.out.println("Blackjack for the dealer!");
-            evaluateWinnings(blackjackPlayer, false, false, false);
+            distributePayouts(blackjackPlayer, false, false, false);
         } else if (playerHandValue == 0 && dealerHandValue == 0) {
             // System.out.println("Both players have Blackjack!  Push!!");
 
-            evaluateWinnings(blackjackPlayer, true, true, false);
+            distributePayouts(blackjackPlayer, true, true, false);
         }
 
     }
@@ -278,7 +278,7 @@ public class BlackjackGame extends CardGame {
 
 
 
-    //Calculates the winner then calls the evaluate winnings function, passing in the winning player.  Outputs a message if a winner is found
+    //Calculates the winner then calls the distributes payout function, passing in the winning player.  Outputs a message if a winner is found
 
     public void evaluateHand(Hand hand) {
 
@@ -286,23 +286,24 @@ public class BlackjackGame extends CardGame {
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
         int playerHandValue = calculateBlackjackHandValue(hand);
+        int winningsMultiplier;
 
         //check for busts
 
         if (playerHandValue == -1 && !(dealerHandValue == -1)) {
             System.out.println("Player Busts! Dealer Wins!");
-            evaluateWinnings(blackjackPlayer, false, false, false);
+            distributePayouts(blackjackPlayer, false, false, false);
             return;
 
         } else if (!(playerHandValue == -1) && dealerHandValue == -1) {
 
             System.out.println("Dealer Busts, Player Wins");
-            evaluateWinnings(blackjackPlayer, false, false, true);
+            distributePayouts(blackjackPlayer, false, false, true);
             return;
         } else if (playerHandValue == -1 && dealerHandValue == -1) {
             // System.out.println("Both players busted!  Push!!");
 
-            evaluateWinnings(blackjackPlayer, true, false, false);
+            distributePayouts(blackjackPlayer, true, false, false);
 
             return;
         }
@@ -310,23 +311,23 @@ public class BlackjackGame extends CardGame {
         if (playerHandValue > dealerHandValue) {
 
             System.out.println("Player wins!");
-            evaluateWinnings(blackjackPlayer, false, false, true);
+            distributePayouts(blackjackPlayer, false, false, true);
 
         } else if (dealerHandValue > playerHandValue) {
             System.out.println("Dealer wins!");
-            evaluateWinnings(blackjackPlayer, false, false, false);
+            distributePayouts(blackjackPlayer, false, false, false);
 
         } else if (dealerHandValue == playerHandValue) {
 
             System.out.println("Push! No winnings paid.");
-            evaluateWinnings(blackjackPlayer, true, false, false);
+            distributePayouts(blackjackPlayer, true, false, false);
         }
 
 
     }
 
     //takes in winning player and calls in appropriate payout functions
-    public void evaluateWinnings(BlackjackPlayer evaluatedPlayer, boolean isPush, boolean isBlackjack, boolean didWin) {
+    public void distributePayouts(BlackjackPlayer evaluatedPlayer, boolean isPush, boolean isBlackjack, boolean didWin) {
 
         int winningPlayerMoneyWon = evaluatedPlayer.getMoneyAtStake();
 
@@ -382,6 +383,31 @@ public class BlackjackGame extends CardGame {
 
     }
 
+    public void startPayouts(){
+
+        this.state = cleanUpState;
+        int [] blackjackHandvalues = new int [];
+
+        if(blackjackPlayer.getPlayerHands().size() > 1){
+
+            for(int i = 0; i < blackjackPlayer.getPlayerHands().size(); i++){
+
+                blackjackHandvalues[i] = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand(i));
+
+
+
+            }
+
+
+
+
+        }
+
+
+
+
+    }
+
 
     //after all players stands, goes through the dealer hit procedure then calls payout function
     public void dealerHit() {
@@ -417,6 +443,8 @@ public class BlackjackGame extends CardGame {
             }
             System.out.println("Dealer total is now: " + calculateBlackjackHandValue(blackjackDealer.getPlayerHand()));
         }
+
+        startPayouts();
 
         //evaluateHand(blackjackPlayer.getPlayerHand());
 

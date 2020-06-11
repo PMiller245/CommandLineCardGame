@@ -92,6 +92,7 @@ public class SplitTurnState implements BlackjackGameState {
 
             if ((player.getMoney() >= player.getMoneyAtStake())) {
                 System.out.println("Cards have been split! Playing hand one...");
+                player.removeHand(handNumberBeingPlayed);
                 player.placeBet(player.getMoneyAtStake());
                 player.splitHand(player.getPlayerHand());
 

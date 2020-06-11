@@ -55,10 +55,10 @@ public class BlackjackPlayer extends Player {
 
 
     //cleanup to remove hand at first position
-    public void removeHand() {
+    public void removeHand(int index) {
         if (hands.size() > 0) {
 
-            hands.remove(0);
+            hands.remove(index);
         }
 
     }
