@@ -20,7 +20,7 @@ public class BettingState implements BlackjackGameState {
 
         betPlaced = false;
 
-        if (bettingPlayer.placeBet(bet, 0) == true) {
+        if (bettingPlayer.placeBetOnHand(bet, 0) == true) {
             System.out.println(bettingPlayer.getPlayerName() + "'s bet of " + bet + " was accepted.");
             bettingPlayer.outputMoney();
             bettingPlayer.outputMoneyAtStake();

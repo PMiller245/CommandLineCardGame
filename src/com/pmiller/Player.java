@@ -93,7 +93,7 @@ public abstract class Player {
 
     //Methods
 
-    public boolean placeBet(int bidAmount, int handBetOn) {
+    public boolean placeBetOnHand(int bidAmount, int handBetOn) {
         //returns false if bid cant be made.  Updates money at stake and money if bid is made
 
         hands.get(handBetOn).addToMoneyBetOnThisHand(bidAmount);

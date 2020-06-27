@@ -9,6 +9,8 @@ public class BlackjackPlayer extends Player {
     //private List<Hand> hands = new ArrayList<>();
     private boolean isSplit;
 
+
+
     private int splitBetAmount;
 
     private boolean hasBlackjack;
@@ -41,6 +43,10 @@ public class BlackjackPlayer extends Player {
 
     public void setIsSplit(boolean isSplit){this.isSplit = isSplit;}
 
+    public int getSplitBetAmount() {
+        return splitBetAmount;
+    }
+
     public void splitHand(Hand handToBeSplit, int currentHandIndex) {
 
         Hand firstSplitHand = new Hand();
@@ -56,8 +62,8 @@ public class BlackjackPlayer extends Player {
             super.getPlayerHands().clear();
             super.getPlayerHands().add(firstSplitHand);
             super.getPlayerHands().add(secondSplitHand);
-            super.placeBet(splitBetAmount,0);
-            super.placeBet(splitBetAmount,1);
+            super.placeBetOnHand(splitBetAmount,0);
+            super.placeBetOnHand(splitBetAmount,1);
 
             firstSplitHand.outputHandToConsole();
             isSplit = true;
@@ -66,11 +72,17 @@ public class BlackjackPlayer extends Player {
         } else {
             firstSplitHand.addToHand(handToBeSplit.getCardInSpecificPosition(0));
             secondSplitHand.addToHand(handToBeSplit.getCardInSpecificPosition(1));
-            firstSplitHand.setMoneyBetOnThisHand(splitBetAmount);
-            secondSplitHand.setMoneyBetOnThisHand(splitBetAmount);
             super.getPlayerHands().remove(currentHandIndex);
+            int moneyAtStake = super.getMoneyAtStake();
+            moneyAtStake = moneyAtStake - splitBetAmount;
+            super.setMoneyAtStake(moneyAtStake);
+            super.addMoney(splitBetAmount);
             super.getPlayerHands().add(firstSplitHand);
             super.getPlayerHands().add(secondSplitHand);
+            super.placeBetOnHand(splitBetAmount,currentHandIndex);
+            super.placeBetOnHand(splitBetAmount,currentHandIndex+1);
+
+
 
         }
 

@@ -69,6 +69,7 @@ public class SplitTurnState implements BlackjackGameState {
 
         } else {
             handNumberBeingPlayed++;
+            hit();
             blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed).outputHandToConsole();
         }
 
@@ -94,9 +95,8 @@ public class SplitTurnState implements BlackjackGameState {
 
             if ((player.getMoney() >= player.getMoneyAtStake())) {
                 System.out.println("Cards have been split! Playing hand one...");
-                player.removeHand(handNumberBeingPlayed);
-                player.placeBet(player.getMoneyAtStake(), 0);
-                player.splitHand(player.getPlayerHand(), 0);
+                player.splitHand(player.getPlayerHand(), handNumberBeingPlayed);
+                blackjackGame.getState().hit();
 
             } else {
                 System.out.println("You can't split!");
@@ -114,8 +114,9 @@ public class SplitTurnState implements BlackjackGameState {
     public void doubleDown() {
 
 
-        if ((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand().getCardsInHandAsList().size() == 2)) {
-            blackjackGame.getBlackjackPlayer().placeBet(blackjackGame.getBlackjackPlayer().getMoneyAtStake(), 0);
+        if ((blackjackGame.getBlackjackPlayer().getMoney() >= blackjackGame.getBlackjackPlayer().getMoneyAtStake()) && (blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed).getCardsInHandAsList().size() == 2)) {
+
+            blackjackGame.getBlackjackPlayer().placeBetOnHand(blackjackGame.getBlackjackPlayer().getSplitBetAmount(), handNumberBeingPlayed);
             hit();
             if (!blackjackGame.getBettingState().equals(blackjackGame.getState())) {
                 stand();
