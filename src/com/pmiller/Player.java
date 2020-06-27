@@ -81,6 +81,11 @@ public abstract class Player {
         return this.money;
     }
 
+    public void addMoney(int moneyToAdd){
+        this.money = this.money + moneyToAdd;
+
+    }
+
 
     public void setPlayerHand(List<Card> playerHand) {
         hands.get(0).setCardsInHand(playerHand);
@@ -114,6 +119,7 @@ public abstract class Player {
 
     }
 
+
     public void outputMoney() {
         System.out.println(this.playerName + " has " + this.money + " in his bank account");
 
@@ -135,6 +141,12 @@ public abstract class Player {
     public void discardHand() {
 
         hands.get(0).discardHand();
+    }
+
+    public void discardHands(){
+        hands.clear();
+        this.hand.discardHand();
+        hands.add(this.hand);
     }
 
     public Hand getPlayerHand(int index) {

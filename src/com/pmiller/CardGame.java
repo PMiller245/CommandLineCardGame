@@ -36,7 +36,7 @@ public class CardGame {
 
 
         //this.player = new Player("Player1");
-        this.deck = new Deck(numberOfDecks);
+        this.deck = new Deck(numberOfDecks, "split");
 
 
     }

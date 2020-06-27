@@ -62,12 +62,14 @@ public class SplitTurnState implements BlackjackGameState {
     public void stand() {
 
         //blackjackGame.evaluateHand();
-        if(handNumberBeingPlayed == blackjackGame.getBlackjackPlayer().getPlayerHands().size()){
+        if(handNumberBeingPlayed+1 == blackjackGame.getBlackjackPlayer().getPlayerHands().size()){
             blackjackGame.setState(blackjackGame.getDealerTurnState());
+            handNumberBeingPlayed = 0;
             blackjackGame.dealerHit();
 
         } else {
             handNumberBeingPlayed++;
+            blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed).outputHandToConsole();
         }
 
 
@@ -94,7 +96,7 @@ public class SplitTurnState implements BlackjackGameState {
                 System.out.println("Cards have been split! Playing hand one...");
                 player.removeHand(handNumberBeingPlayed);
                 player.placeBet(player.getMoneyAtStake(), 0);
-                player.splitHand(player.getPlayerHand());
+                player.splitHand(player.getPlayerHand(), 0);
 
             } else {
                 System.out.println("You can't split!");

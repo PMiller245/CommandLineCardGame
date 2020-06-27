@@ -53,6 +53,7 @@ public class Hand {
 
     public void discardHand() {
         this.cardsInHand.clear();
+        this.moneyBetOnThisHand = 0;
 
     }
 

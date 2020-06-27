@@ -57,6 +57,33 @@ public class Deck {
     }
 
 
+    public Deck(int numberOfDecks, String testDeckType) {
+
+        this.cards = new ArrayList<>();
+        //creates a deck that is 75% 7s and 25% 6s for testing split functionality
+        if(testDeckType.equalsIgnoreCase("split")) {
+
+
+            for (int i = 0; i < numberOfDecks; i++) {
+                for (int j = 2; j < 15; j++) {
+
+                    this.cards.add(new Card("Spades", 7));
+                    this.cards.add(new Card("Clubs", 7));
+                    this.cards.add(new Card("Hearts", 7));
+                    this.cards.add(new Card("Diamonds", 6));
+
+                    //System.out.println(this.cards);
+                }
+            }
+        }
+
+        shuffle();
+
+
+    }
+
+
+
     public void shuffle() {
         Collections.shuffle(this.cards);
 

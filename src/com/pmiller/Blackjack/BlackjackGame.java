@@ -18,7 +18,7 @@ public class BlackjackGame extends CardGame {
     private BlackjackPlayer blackjackDealer;
     private BlackjackPlayer blackjackPlayer;
     private Deck deck;
-    private int blackjackHandValue;
+    //private int blackjackHandValue;
     private List<String> listOfCommands = new ArrayList<>();
     private BlackjackGameState playerTurnState;
     private BlackjackGameState dealerTurnState;
@@ -33,8 +33,8 @@ public class BlackjackGame extends CardGame {
 
     public BlackjackGame(int numberOfDecks, BlackjackPlayer currentPlayer) {
 
-        super(numberOfDecks);
-        this.deck = new Deck(numberOfDecks);
+
+        this.deck = new Deck(numberOfDecks,"split");
         this.blackjackPlayer = currentPlayer;
         this.blackjackDealer = new BlackjackPlayer(true);
         this.listOfCommands.add("exit");
@@ -137,8 +137,7 @@ public class BlackjackGame extends CardGame {
             //System.out.println("Your action of " + userInput);
 
             if (userInput.equalsIgnoreCase("deal")) {
-                blackjackDealer.discardHand();
-                blackjackPlayer.discardHand();
+
                 state.deal();
             }
 
@@ -169,6 +168,10 @@ public class BlackjackGame extends CardGame {
             if (userInput.equalsIgnoreCase("money")) {
                 System.out.println(blackjackPlayer.getMoney());
 
+            }
+
+            if(userInput.equalsIgnoreCase("split")){
+                state.split();
             }
 
         }
@@ -206,7 +209,7 @@ public class BlackjackGame extends CardGame {
     public int calculateBlackjackHandValue(Hand hand) {
         //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
 
-        blackjackHandValue = 0;
+        int blackjackHandValue = 0;
         int blackjackCardValue = 0;
         int aceCounter = 0;
 
@@ -284,6 +287,12 @@ public class BlackjackGame extends CardGame {
     }
 
     //TODO implement split
+
+    public void startSplit(){
+
+        blackjackPlayer.getPlayerHand(0).outputHandToConsole();
+
+    }
 
 
     //takes in a hand and returns the winning multiple (0 for loss, 1 for push, 2 for win)
@@ -397,7 +406,8 @@ public class BlackjackGame extends CardGame {
     public void clearTableAndSetToBetState() {
 
         System.out.println("Clearing table! Type \"Bet\" to start the next hand");
-        blackjackPlayer.discardHand();
+        blackjackPlayer.discardHands();
+        blackjackPlayer.setIsSplit(false);
         blackjackDealer.discardHand();
         setState(bettingState);
 
@@ -413,13 +423,14 @@ public class BlackjackGame extends CardGame {
 
 
                 int winnings = blackjackPlayer.getPlayerHand(i).getMoneyBetOnThisHand() * evaluateHandAndReturnPayoutMultiplier(blackjackPlayer.getPlayerHand(i));
-                blackjackPlayer.receiveWinnings(winnings, 0);
+                blackjackPlayer.receiveWinnings(winnings, i);
 
 
             }
 
         }
 
+        blackjackPlayer.setMoneyAtStake(0);
         clearTableAndSetToBetState();
 
 
