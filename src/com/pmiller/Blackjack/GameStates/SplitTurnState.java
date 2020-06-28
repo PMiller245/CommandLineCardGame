@@ -3,6 +3,7 @@ package com.pmiller.Blackjack.GameStates;
 import com.pmiller.Blackjack.BlackjackGame;
 import com.pmiller.Blackjack.BlackjackPlayer;
 import com.pmiller.Card;
+import com.pmiller.Hand;
 import com.pmiller.Player;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class SplitTurnState implements BlackjackGameState {
         blackjackGame.getBlackjackPlayer().addToHand(hitCard,handNumberBeingPlayed);
         System.out.println("You were dealt a " + hitCard.getFaceValue());
         //check busts
-        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed)) == -1) {
+        if (blackjackGame.calculateBlackjackHandValue(blackjackGame.getBlackjackPlayer().getPlayerHand(handNumberBeingPlayed)) > 21) {
             //mark hand as bust and move to next hand
             System.out.println("Hand bust, moving to next hand");
             handNumberBeingPlayed++;
@@ -91,11 +92,12 @@ public class SplitTurnState implements BlackjackGameState {
     @Override
     public void split() {
 
+        List<Card> playerHand = player.getPlayerHand(handNumberBeingPlayed).getCardsInHandAsList();
         if (playerHand.size() == 2 && playerHand.get(0).getValue() == playerHand.get(1).getValue()) {
 
             if ((player.getMoney() >= player.getMoneyAtStake())) {
                 System.out.println("Cards have been split! Playing hand one...");
-                player.splitHand(player.getPlayerHand(), handNumberBeingPlayed);
+                player.splitHand(player.getPlayerHand(handNumberBeingPlayed), handNumberBeingPlayed);
                 blackjackGame.getState().hit();
 
             } else {

@@ -77,8 +77,8 @@ public class BlackjackPlayer extends Player {
             moneyAtStake = moneyAtStake - splitBetAmount;
             super.setMoneyAtStake(moneyAtStake);
             super.addMoney(splitBetAmount);
-            super.getPlayerHands().add(firstSplitHand);
-            super.getPlayerHands().add(secondSplitHand);
+            super.getPlayerHands().add(currentHandIndex,firstSplitHand);
+            super.getPlayerHands().add(currentHandIndex+1,secondSplitHand);
             super.placeBetOnHand(splitBetAmount,currentHandIndex);
             super.placeBetOnHand(splitBetAmount,currentHandIndex+1);
 

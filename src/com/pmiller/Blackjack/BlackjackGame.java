@@ -34,7 +34,7 @@ public class BlackjackGame extends CardGame {
     public BlackjackGame(int numberOfDecks, BlackjackPlayer currentPlayer) {
 
 
-        this.deck = new Deck(numberOfDecks,"split");
+        this.deck = new Deck(numberOfDecks);
         this.blackjackPlayer = currentPlayer;
         this.blackjackDealer = new BlackjackPlayer(true);
         this.listOfCommands.add("exit");
@@ -232,7 +232,7 @@ public class BlackjackGame extends CardGame {
 
         //check for blackjack
         if (blackjackHandValue == 21 && hand.getCardsInHandAsList().size() == 2) {
-            return 0;
+            return 21;
         }
 
         //resize hand based on number of aces, loop does nothing if the hand is 21 or below
@@ -248,7 +248,7 @@ public class BlackjackGame extends CardGame {
         }
 
         if (blackjackHandValue > 21) {
-            return -1;
+            return blackjackHandValue;
         }
 
         return blackjackHandValue;
@@ -260,23 +260,41 @@ public class BlackjackGame extends CardGame {
 
         int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
         int playerHandValue = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand());
+        boolean dealerHasBlackjack = false;
+        boolean playerHasBlackjack = false;
+
+        if(dealerHandValue == 21 && blackjackDealer.getPlayerHand().getCardsInHandAsList().size() == 2){
+            dealerHasBlackjack = true;
+
+        }
+
+        if(playerHandValue == 21 && blackjackPlayer.getPlayerHand().getCardsInHandAsList().size() == 2){
+            playerHasBlackjack = true;
+
+        }
+
+
+
+        if(blackjackPlayer.getIsSplit()){
+            return; // cant get blackjacks while split
+        }
 
 
         //check for blackjacks (hand values of 0 denote blackjack)
-        if (playerHandValue == 0 && !(dealerHandValue == 0)) {
+        if ((playerHasBlackjack ) && !(dealerHasBlackjack)) {
             System.out.println("Blackjack! Player wins!");
             blackjackPlayer.setHasBlackjack(true);
             startPayouts();
             //distributePayouts(blackjackPlayer, false, true, true);
 
-        } else if (!(playerHandValue == 0) && dealerHandValue == 0) {
+        } else if (!playerHasBlackjack && dealerHasBlackjack) {
 
             System.out.println("Blackjack for the dealer!");
             blackjackDealer.setHasBlackjack(true);
             startPayouts();
 
             //distributePayouts(blackjackPlayer, false, false, false);
-        } else if (playerHandValue == 0 && dealerHandValue == 0) {
+        } else if (playerHasBlackjack && dealerHasBlackjack) {
             System.out.println("Both players have Blackjack!  Push!!");
             blackjackDealer.setHasBlackjack(true);
             blackjackPlayer.setHasBlackjack(true);
@@ -286,13 +304,7 @@ public class BlackjackGame extends CardGame {
 
     }
 
-    //TODO implement split
 
-    public void startSplit(){
-
-        blackjackPlayer.getPlayerHand(0).outputHandToConsole();
-
-    }
 
 
     //takes in a hand and returns the winning multiple (0 for loss, 1 for push, 2 for win)
@@ -307,6 +319,9 @@ public class BlackjackGame extends CardGame {
         if (blackjackDealer.getHasBlackjack() && blackjackPlayer.getHasBlackjack()) {
             return 1;
         } else if (blackjackPlayer.getHasBlackjack()) {
+            if(blackjackPlayer.getIsSplit()){
+                return 2; // cant get blackjacks while split
+            }
             return 3;
         } else if (blackjackDealer.getHasBlackjack()) {
             return 0;
@@ -314,17 +329,17 @@ public class BlackjackGame extends CardGame {
 
         //check for busts
 
-        if (playerHandValue == -1 && !(dealerHandValue == -1)) {
+        if (playerHandValue > 21 && !(dealerHandValue > 21)) {
             System.out.println("Player Busts! Dealer Wins!");
             //distributePayouts(blackjackPlayer, false, false, false);
             return 0;
 
-        } else if (!(playerHandValue == -1) && dealerHandValue == -1) {
+        } else if (!(playerHandValue > 21) && dealerHandValue > 21) {
 
             System.out.println("Dealer Busts, Player Wins");
             //distributePayouts(blackjackPlayer, false, false, true);
             return 2;
-        } else if (playerHandValue == -1 && dealerHandValue == -1) {
+        } else if (playerHandValue > 21 && dealerHandValue > 21) {
             // System.out.println("Both players busted!  Push!!");
 
             // distributePayouts(blackjackPlayer, true, false, false);

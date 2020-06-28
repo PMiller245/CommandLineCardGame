@@ -77,6 +77,22 @@ public class Deck {
             }
         }
 
+        if(testDeckType.equalsIgnoreCase("blackjacks")) {
+
+
+            for (int i = 0; i < numberOfDecks; i++) {
+                for (int j = 2; j < 15; j++) {
+
+                    this.cards.add(new Card("Spades", 11));
+                    this.cards.add(new Card("Clubs", 11));
+                    this.cards.add(new Card("Hearts", 14));
+                    this.cards.add(new Card("Diamonds", 11));
+
+                    //System.out.println(this.cards);
+                }
+            }
+        }
+
         shuffle();
 
 
