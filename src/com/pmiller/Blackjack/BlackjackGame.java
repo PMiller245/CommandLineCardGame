@@ -18,7 +18,6 @@ public class BlackjackGame extends CardGame {
     private BlackjackPlayer blackjackDealer;
     private BlackjackPlayer blackjackPlayer;
     private Deck deck;
-    //private int blackjackHandValue;
     private List<String> listOfCommands = new ArrayList<>();
     private BlackjackGameState playerTurnState;
     private BlackjackGameState dealerTurnState;
@@ -170,7 +169,7 @@ public class BlackjackGame extends CardGame {
 
             }
 
-            if(userInput.equalsIgnoreCase("split")){
+            if (userInput.equalsIgnoreCase("split")) {
                 state.split();
             }
 
@@ -205,6 +204,53 @@ public class BlackjackGame extends CardGame {
 
     }
 
+
+    public void checkBlackjacks() {
+
+        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
+        int playerHandValue = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand());
+        boolean dealerHasBlackjack = false;
+        boolean playerHasBlackjack = false;
+
+        if (dealerHandValue == 21 && blackjackDealer.getPlayerHand().getCardsInHandAsList().size() == 2) {
+            dealerHasBlackjack = true;
+
+        }
+
+        if (playerHandValue == 21 && blackjackPlayer.getPlayerHand().getCardsInHandAsList().size() == 2) {
+            playerHasBlackjack = true;
+
+        }
+
+
+        if (blackjackPlayer.getIsSplit()) {
+            return; // cant get blackjacks while split
+        }
+
+
+        //check for blackjacks (hand values of 0 denote blackjack)
+        if ((playerHasBlackjack) && !(dealerHasBlackjack)) {
+            System.out.println("Blackjack! Player wins!");
+            blackjackPlayer.setHasBlackjack(true);
+            handlePayouts();
+            //distributePayouts(blackjackPlayer, false, true, true);
+
+        } else if (!playerHasBlackjack && dealerHasBlackjack) {
+
+            System.out.println("Blackjack for the dealer!");
+            blackjackDealer.setHasBlackjack(true);
+            handlePayouts();
+
+            //distributePayouts(blackjackPlayer, false, false, false);
+        } else if (playerHasBlackjack && dealerHasBlackjack) {
+            System.out.println("Both players have Blackjack!  Push!!");
+            blackjackDealer.setHasBlackjack(true);
+            blackjackPlayer.setHasBlackjack(true);
+            handlePayouts();
+            //distributePayouts(blackjackPlayer, true, true, false);
+        }
+
+    }
 
     public int calculateBlackjackHandValue(Hand hand) {
         //returns 0 for a blackjack and -1 for a bust, otherwise it returns the highest hand value
@@ -256,202 +302,6 @@ public class BlackjackGame extends CardGame {
 
     }
 
-    public void checkBlackjacks() {
-
-        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
-        int playerHandValue = calculateBlackjackHandValue(blackjackPlayer.getPlayerHand());
-        boolean dealerHasBlackjack = false;
-        boolean playerHasBlackjack = false;
-
-        if(dealerHandValue == 21 && blackjackDealer.getPlayerHand().getCardsInHandAsList().size() == 2){
-            dealerHasBlackjack = true;
-
-        }
-
-        if(playerHandValue == 21 && blackjackPlayer.getPlayerHand().getCardsInHandAsList().size() == 2){
-            playerHasBlackjack = true;
-
-        }
-
-
-
-        if(blackjackPlayer.getIsSplit()){
-            return; // cant get blackjacks while split
-        }
-
-
-        //check for blackjacks (hand values of 0 denote blackjack)
-        if ((playerHasBlackjack ) && !(dealerHasBlackjack)) {
-            System.out.println("Blackjack! Player wins!");
-            blackjackPlayer.setHasBlackjack(true);
-            startPayouts();
-            //distributePayouts(blackjackPlayer, false, true, true);
-
-        } else if (!playerHasBlackjack && dealerHasBlackjack) {
-
-            System.out.println("Blackjack for the dealer!");
-            blackjackDealer.setHasBlackjack(true);
-            startPayouts();
-
-            //distributePayouts(blackjackPlayer, false, false, false);
-        } else if (playerHasBlackjack && dealerHasBlackjack) {
-            System.out.println("Both players have Blackjack!  Push!!");
-            blackjackDealer.setHasBlackjack(true);
-            blackjackPlayer.setHasBlackjack(true);
-            startPayouts();
-            //distributePayouts(blackjackPlayer, true, true, false);
-        }
-
-    }
-
-
-
-
-    //takes in a hand and returns the winning multiple (0 for loss, 1 for push, 2 for win)
-
-    public int evaluateHandAndReturnPayoutMultiplier(Hand hand) {
-
-        //blackjacks have already been checked, they are checked within the dealHand function
-
-        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
-        int playerHandValue = calculateBlackjackHandValue(hand);
-
-        if (blackjackDealer.getHasBlackjack() && blackjackPlayer.getHasBlackjack()) {
-            return 1;
-        } else if (blackjackPlayer.getHasBlackjack()) {
-            if(blackjackPlayer.getIsSplit()){
-                return 2; // cant get blackjacks while split
-            }
-            return 3;
-        } else if (blackjackDealer.getHasBlackjack()) {
-            return 0;
-        }
-
-        //check for busts
-
-        if (playerHandValue > 21 && !(dealerHandValue > 21)) {
-            System.out.println("Player Busts! Dealer Wins!");
-            //distributePayouts(blackjackPlayer, false, false, false);
-            return 0;
-
-        } else if (!(playerHandValue > 21) && dealerHandValue > 21) {
-
-            System.out.println("Dealer Busts, Player Wins");
-            //distributePayouts(blackjackPlayer, false, false, true);
-            return 2;
-        } else if (playerHandValue > 21 && dealerHandValue > 21) {
-            // System.out.println("Both players busted!  Push!!");
-
-            // distributePayouts(blackjackPlayer, true, false, false);
-
-            return 1;
-        }
-
-        if (playerHandValue > dealerHandValue) {
-
-            System.out.println("Player wins!");
-            //distributePayouts(blackjackPlayer, false, false, true);
-            return 2;
-
-        } else if (dealerHandValue > playerHandValue) {
-            System.out.println("Dealer wins!");
-            // distributePayouts(blackjackPlayer, false, false, false);
-            return 0;
-
-        } else if (dealerHandValue == playerHandValue) {
-
-            System.out.println("Push! No winnings paid.");
-            // distributePayouts(blackjackPlayer, true, false, false);
-            return 1;
-
-        }
-
-        return 0;
-
-    }
-
-    //takes in winning player and calls in appropriate payout functions
-    public void distributePayouts(BlackjackPlayer evaluatedPlayer, boolean isPush, boolean isBlackjack, boolean didWin) {
-
-        int winningPlayerMoneyWon = evaluatedPlayer.getMoneyAtStake();
-
-
-        if (isBlackjack && !isPush && didWin) {
-            System.out.println(evaluatedPlayer.getPlayerName() + " has a blackjack!");
-            //blackjack pay 2:1
-            winningPlayerMoneyWon = 3 * winningPlayerMoneyWon;
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
-            evaluatedPlayer.outputMoney();
-
-            clearTableAndSetToBetState();
-
-            return;
-
-        } else if (isBlackjack && isPush) {
-
-            System.out.println("Dealer and " + evaluatedPlayer.getPlayerName() + " both have blackjacks!  Push!");
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
-            evaluatedPlayer.outputMoney();
-            clearTableAndSetToBetState();
-            return;
-
-        }
-
-        if (isPush) {
-
-            evaluatedPlayer.receiveWinnings(winningPlayerMoneyWon, 0);
-            evaluatedPlayer.outputMoney();
-            clearTableAndSetToBetState();
-            return;
-
-        }
-
-        if (didWin) {
-            evaluatedPlayer.receiveWinnings(2 * winningPlayerMoneyWon, 0);
-            evaluatedPlayer.outputMoney();
-        }
-
-        //player would have lost by this point
-        evaluatedPlayer.setMoneyAtStake(0);
-        clearTableAndSetToBetState();
-
-    }
-
-    //clears the hands and sets the state for the next hand
-    public void clearTableAndSetToBetState() {
-
-        System.out.println("Clearing table! Type \"Bet\" to start the next hand");
-        blackjackPlayer.discardHands();
-        blackjackPlayer.setIsSplit(false);
-        blackjackDealer.discardHand();
-        setState(bettingState);
-
-    }
-
-    public void startPayouts() {
-
-        this.state = cleanUpState;
-
-        if (blackjackPlayer.getPlayerHands().size() >= 1) {
-
-            for (int i = 0; i < blackjackPlayer.getPlayerHands().size(); i++) {
-
-
-                int winnings = blackjackPlayer.getPlayerHand(i).getMoneyBetOnThisHand() * evaluateHandAndReturnPayoutMultiplier(blackjackPlayer.getPlayerHand(i));
-                blackjackPlayer.receiveWinnings(winnings, i);
-
-
-            }
-
-        }
-
-        blackjackPlayer.setMoneyAtStake(0);
-        clearTableAndSetToBetState();
-
-
-    }
-
-
     //after all players stands, goes through the dealer hit procedure then calls payout function
     public void dealerHit() {
 
@@ -487,10 +337,102 @@ public class BlackjackGame extends CardGame {
             System.out.println("Dealer total is now: " + calculateBlackjackHandValue(blackjackDealer.getPlayerHand()));
         }
 
-        startPayouts();
+        handlePayouts();
 
         //evaluateHand(blackjackPlayer.getPlayerHand());
 
+
+    }
+
+    public void handlePayouts() {
+
+        this.state = cleanUpState;
+
+        if (blackjackPlayer.getPlayerHands().size() >= 1) {
+
+            for (int i = 0; i < blackjackPlayer.getPlayerHands().size(); i++) {
+
+
+                int winnings = blackjackPlayer.getPlayerHand(i).getMoneyBetOnThisHand() * returnHandPayoutMultiplier(blackjackPlayer.getPlayerHand(i));
+                blackjackPlayer.receiveWinnings(winnings, i);
+
+
+            }
+
+        }
+
+        blackjackPlayer.setMoneyAtStake(0);
+        clearTableAndSetToBetState();
+
+
+    }
+
+
+    //takes in a hand and returns the winning multiple (0 for loss, 1 for push, 2 for win, 3 for blackjack)
+
+    public int returnHandPayoutMultiplier(Hand hand) {
+
+        //blackjacks have already been checked, they are checked within the dealHand function
+
+        int dealerHandValue = calculateBlackjackHandValue(blackjackDealer.getPlayerHand());
+        int playerHandValue = calculateBlackjackHandValue(hand);
+
+
+        if (blackjackDealer.getHasBlackjack() && blackjackPlayer.getHasBlackjack()) {
+            return 1;
+        } else if (blackjackPlayer.getHasBlackjack()) {
+            if (blackjackPlayer.getIsSplit()) {
+                return 2; // cant get blackjacks while split
+            }
+            return 3;
+        } else if (blackjackDealer.getHasBlackjack()) {
+            return 0;
+        }
+
+        //check for busts
+
+        if (playerHandValue > 21 && !(dealerHandValue > 21)) {
+            System.out.println("Player Busts! Dealer Wins!");
+            return 0;
+
+        } else if (!(playerHandValue > 21) && dealerHandValue > 21) {
+
+            System.out.println("Dealer Busts, Player Wins");
+            return 2;
+        } else if (playerHandValue > 21 && dealerHandValue > 21) {
+
+            return 1;
+        }
+
+        if (playerHandValue > dealerHandValue) {
+
+            System.out.println("Player wins!");
+            return 2;
+
+        } else if (dealerHandValue > playerHandValue) {
+            System.out.println("Dealer wins!");
+            return 0;
+
+        } else if (dealerHandValue == playerHandValue) {
+
+            System.out.println("Push! No winnings paid.");
+            return 1;
+
+        }
+
+        return 0;
+
+    }
+
+
+    //clears the hands and sets the state for the next hand
+    public void clearTableAndSetToBetState() {
+
+        System.out.println("Clearing table! Type \"Bet\" to start the next hand");
+        blackjackPlayer.discardHands();
+        blackjackPlayer.setIsSplit(false);
+        blackjackDealer.discardHand();
+        setState(bettingState);
 
     }
 
